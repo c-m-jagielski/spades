@@ -30,6 +30,7 @@ class deck(object):
         #print new
         #print tmp
         #print len(new)
+        return new
 
     def deal(self, numPlayers=4):
         """
@@ -45,7 +46,12 @@ class deck(object):
         player4 = []
 
         newCards = self.shuffle(data)
+        #print newCards
 
+        player1 = newCards[0:12]
+        player2 = newCards[13:25]
+        player3 = newCards[26:38]
+        player4 = newCards[39:51]
 
 if __name__ == "__main__":
     print("init")
