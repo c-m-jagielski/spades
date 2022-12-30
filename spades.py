@@ -6,18 +6,20 @@ class spades(object):
     playerName = ""
     numPlayers = 4
     d = None
+    playerCards = {}
 
     def startGame(object):
         """
         """
         d = deck()
-        deck.deal(d, numPlayers=4, debug=True)
+        playerCards = deck.deal(d, numPlayers=4, debug=True)
 
     def reset(object):
         """
         Reset variables in this class
         """
         d = None
+        playerCards = {}
 
 if __name__ == "__main__":
     print("Let's play Spades!")

@@ -54,6 +54,9 @@ class deck(object):
         player3 = newCards[26:38]
         player4 = newCards[39:51]
 
+        playerCards = {"p1":player1, "p2":player2, "p3":player3, "p4":player4}
+        return playerCards
+
 if __name__ == "__main__":
     print("init")
     f = open('cards.json')
