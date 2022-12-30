@@ -21,7 +21,7 @@ class spades(object):
         self.displayHand(playerCards["p1"])
 
         # Assume the user is going to bid first
-        p1bid = raw_input("What is your bid? ")
+        p1bid = raw_input("\nWhat is your bid? ")
         #TODO error checking for integer between 0 and 13
         #TODO allow "null", "nello", and variations too
 
@@ -46,16 +46,22 @@ class spades(object):
         d = None
         playerCards = {}
 
-    def displayHand(self, myCards):
+    def displayHand(self, inputCards):
         """
         Sort then print user's cards
         """
         # TODO
-        print "\n\n**** **** **** ****\n", myCards
+        myCards = self.sortHand(inputCards)
+        print "\n\n**** **** **** ****"
+        #print myCards
+        i = 0
+        while i < len(myCards):
+            print myCards[i]["value"], "\t", myCards[i]["suit"]
+            i += 1
 
     def sortHand(self, hand):
         # TODO
-        pass
+        return hand
 
     def obtainCpuBid(self, hand):
         # TODO

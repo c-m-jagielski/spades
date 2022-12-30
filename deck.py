@@ -53,10 +53,6 @@ class deck(object):
         player2 = newCards[13:26]
         player3 = newCards[26:39]
         player4 = newCards[39:52]
-        print len(player1)
-        print len(player2)
-        print len(player3)
-        print len(player4)
 
         playerCards = {"p1":player1, "p2":player2, "p3":player3, "p4":player4}
         return playerCards
