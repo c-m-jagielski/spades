@@ -12,7 +12,7 @@ class deck(object):
     H = "hearts"
     suits = [S, C, D, H]
 
-    def shuffle(self, cards=None):
+    def shuffle(self, cards=None, debug=False):
         """
         Shuffle the cards so that the imported deck is now in a random order
         """
@@ -27,18 +27,19 @@ class deck(object):
             new.append(tmp[x1])
             tmp.pop(x1)
             i += 1
-        #print new
-        #print tmp
-        #print len(new)
+        if debug:
+            print new
+            print tmp
+            print len(new)
         return new
 
-    def deal(self, numPlayers=4):
+    def deal(self, numPlayers=4, debug=False):
         """
         Deal the cards. Default to 4 players.
         """
         f = open('cards.json')
         data = json.load(f)
-        #print data
+        if debug: print data
 
         player1 = []
         player2 = []
@@ -46,7 +47,7 @@ class deck(object):
         player4 = []
 
         newCards = self.shuffle(data)
-        #print newCards
+        if debug: print newCards
 
         player1 = newCards[0:12]
         player2 = newCards[13:25]
