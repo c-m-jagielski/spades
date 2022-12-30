@@ -35,6 +35,10 @@ class spades(object):
         print "P 3 bid ", p3bid
         print "P 4 bid ", p4bid
 
+        # User can play first
+        self.displayHand(playerCards["p1"])
+        cardSelection = raw_input("**** **** **** ****\nWhat card will you play? ")
+
     def reset(self):
         """
         Reset variables in this class
@@ -47,7 +51,7 @@ class spades(object):
         Sort then print user's cards
         """
         # TODO
-        print "\n\n", myCards
+        print "\n\n**** **** **** ****\n", myCards
 
     def sortHand(self, hand):
         # TODO
@@ -55,7 +59,7 @@ class spades(object):
 
     def obtainCpuBid(self, hand):
         # TODO
-        return random.randint(0,4)
+        return random.randint(1,4)
 
 if __name__ == "__main__":
     print("Let's play Spades!")
