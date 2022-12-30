@@ -49,10 +49,14 @@ class deck(object):
         newCards = self.shuffle(data)
         if debug: print newCards
 
-        player1 = newCards[0:12]
-        player2 = newCards[13:25]
-        player3 = newCards[26:38]
-        player4 = newCards[39:51]
+        player1 = newCards[0:13]
+        player2 = newCards[13:26]
+        player3 = newCards[26:39]
+        player4 = newCards[39:52]
+        print len(player1)
+        print len(player2)
+        print len(player3)
+        print len(player4)
 
         playerCards = {"p1":player1, "p2":player2, "p3":player3, "p4":player4}
         return playerCards
