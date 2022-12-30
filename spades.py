@@ -23,6 +23,9 @@ class spades(object):
 
 if __name__ == "__main__":
     print("Let's play Spades!")
+    #val = raw_input("Enter your value: ")    # convert to input() for python 3.6
+    playerName = raw_input("What is your name? ")
+    if playerName=="": playerName = "Player 1"
 
     game = spades()
     game.startGame()
