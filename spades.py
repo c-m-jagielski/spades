@@ -50,10 +50,9 @@ class spades(object):
         """
         Sort then print user's cards
         """
-        print "!!!!! inputCards: ", inputCards
         myCards = self.sortHand(inputCards)
         print "\n\n**** **** **** ****"
-        #print myCards
+
         i = 0
         while i < len(myCards):
             print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
@@ -80,7 +79,7 @@ class spades(object):
                     sortedHand.append(blah)
                     break
                 handIndex += 1
-        print "$$    sortedHand", sortedHand
+        #print "$$    sortedHand", sortedHand  # Debug
         return sortedHand
 
     def obtainCpuBid(self, hand):
