@@ -60,8 +60,27 @@ class spades(object):
             i += 1
 
     def sortHand(self, hand):
-        # TODO
-        return hand
+        """
+        Sort the player's hand according to the json index
+        """
+        # TODO I can make this better
+        sortedHand = []
+        tmp = hand
+        for i in range(1, 53):
+            if len(tmp) == 0: break
+            print "$$ i=", i
+            handIndex = 0
+            for ii in range(0, len(tmp)):
+                thisCard = tmp[ii]
+                print "$$   thisCard=", thisCard
+                if thisCard["index"] == i:
+                    blah = tmp.pop(handIndex)
+                    print "$$      blah", blah
+                    sortedHand.append(blah)
+                    break
+                handIndex += 1
+        print "$$    sortedHand", sortedHand
+        return sortedHand
 
     def obtainCpuBid(self, hand):
         # TODO
