@@ -90,9 +90,22 @@ class spades(object):
         return random.randint(1,4)
 
     def obtainUserBid(self):
-        p1bid = raw_input("\nWhat is your bid? ")
-        #TODO error checking for integer between 0 and 13
-        #TODO allow "null", "nello", and variations too
+        """
+        User submits their bid. Check that it's legit.
+        """
+        allowed = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13",'null','nill','nillo','zero','none']
+        response = raw_input("\nWhat is your bid? ")
+        if response in allowed: return response
+        time.sleep(0.1)
+        print "\n........."
+        time.sleep(0.1)
+        newResponse = raw_input("\nPlease enter a valid bid.\nWhat is your bid? ")
+        if newResponse in allowed: return newResponse
+        time.sleep(0.1)
+        print "\n........."
+        time.sleep(0.1)
+        print "Sorry. Defaulting to a bid of 2."
+        return 2
 
 if __name__ == "__main__":
     print("Let's play Spades!")
