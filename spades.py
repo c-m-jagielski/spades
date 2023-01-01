@@ -1,6 +1,6 @@
 # Spades game
 from deck import deck
-import random, copy
+import random, copy, time
 
 class spades(object):
 
@@ -30,14 +30,17 @@ class spades(object):
         p3bid = self.obtainCpuBid(playerCards["p3"])
         p4bid = self.obtainCpuBid(playerCards["p4"])
 
+        print " "
+        time.sleep(.5)
         print "You bid: ", p1bid
         print "P 2 bid: ", p2bid
         print "P 3 bid: ", p3bid
         print "P 4 bid: ", p4bid
+        time.sleep(.5)
 
         # User can play first
         self.displayHand(playerCards["p1"])
-        cardSelection = raw_input("**** **** **** ****\nWhat card will you play? ")
+        cardSelection = raw_input("\n\nWhat card will you play? ")
 
     def reset(self):
         """
@@ -52,12 +55,13 @@ class spades(object):
         """
         myCards = self.sortHand(inputCards)
         print "\n\n**** **** **** **** **** **** ****"
-        print "     YOUR HAND\n**** **** **** **** **** **** ****"
+        print "          YOUR HAND\n**** **** **** **** **** **** ****"
 
         i = 0
         while i < len(myCards):
             print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
             i += 1
+        print " "
 
     def sortHand(self, hand):
         """
