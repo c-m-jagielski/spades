@@ -21,9 +21,7 @@ class spades(object):
         self.displayHand(playerCards["p1"])
 
         # Assume the user is going to bid first
-        p1bid = raw_input("\nWhat is your bid? ")
-        #TODO error checking for integer between 0 and 13
-        #TODO allow "null", "nello", and variations too
+        p1bid = self.obtainUserBid()
 
         # Obtain bids from the CPU users
         p2bid = self.obtainCpuBid(playerCards["p2"])
@@ -90,6 +88,11 @@ class spades(object):
     def obtainCpuBid(self, hand):
         # TODO
         return random.randint(1,4)
+
+    def obtainUserBid(self):
+        p1bid = raw_input("\nWhat is your bid? ")
+        #TODO error checking for integer between 0 and 13
+        #TODO allow "null", "nello", and variations too
 
 if __name__ == "__main__":
     print("Let's play Spades!")
