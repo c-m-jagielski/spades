@@ -1,6 +1,6 @@
 # Spades game
 from deck import deck
-import random
+import random, copy
 
 class spades(object):
 
@@ -15,7 +15,7 @@ class spades(object):
         """
         # Start the game by dealing
         d = deck()
-        playerCards = deck.deal(d, numPlayers=4, debug=True)
+        playerCards = deck.deal(d, numPlayers=4, debug=False)
 
         # Show the user their hand
         self.displayHand(playerCards["p1"])
@@ -50,10 +50,10 @@ class spades(object):
         """
         Sort then print user's cards
         """
-        print "inputCards: ", inputCards
+        print "!!!!! inputCards: ", inputCards
         myCards = self.sortHand(inputCards)
         print "\n\n**** **** **** ****"
-        print myCards
+        #print myCards
         i = 0
         while i < len(myCards):
             print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
@@ -65,17 +65,18 @@ class spades(object):
         """
         # TODO I can make this better
         sortedHand = []
-        tmp = hand
+        tmp = copy.deepcopy(hand)
         for i in range(1, 53):
             if len(tmp) == 0: break
-            print "$$ i=", i
+            #print "$$ i=", i
             handIndex = 0
+
             for ii in range(0, len(tmp)):
                 thisCard = tmp[ii]
-                print "$$   thisCard=", thisCard
+                #print "$$   thisCard=", thisCard
                 if thisCard["index"] == i:
                     blah = tmp.pop(handIndex)
-                    print "$$      blah", blah
+                    #print "$$      blah", blah
                     sortedHand.append(blah)
                     break
                 handIndex += 1
