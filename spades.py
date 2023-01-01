@@ -9,6 +9,11 @@ class spades(object):
     d = None
     playerCards = {}
     playerBids = {"p1":None, "p2":None, "p3":None, "p4":None}
+    spadesUsed = False
+
+    # Modes for playing
+    EASY = 1
+    HARD = 2
 
     def startGame(self):
         """
@@ -38,7 +43,38 @@ class spades(object):
 
         # User can play first
         self.displayHand(playerCards["p1"])
-        cardSelection = raw_input("\n\nWhat card will you play? ")
+        usersHand = self.sortHand(playerCards["p1"])
+        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        # Is the user's selection allowed?
+        isAllowed = self.checkLeadCard(usersHand, cardSelection)
+        if not isAllowed:
+            self.prepareResponse()
+            print "\n\nYou can not select a SPADE yet. Try again."
+            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        # Time for CPU's to play
+        # TODO
+
+    def checkLeadCard(self, hand, cardSelection):
+        """
+        Check if a card played is allowed or not.
+        Spades can't be lead unless already played or if user has no other choice.
+
+        hand: [input] the user's hand, json format
+        cardSelection: [input] integer selection, index starts at Zero
+        """
+        #print "^ INDEX: ", cardSelection
+        print "^ CARD: ", hand[cardSelection]
+
+        if self.spadesUsed or hand[cardSelection]['suit'] != 'spades': return True
+
+        # Check if user has only spades left
+        i = 0
+        while i < len(hand):
+            if hand[i]['suit'] != 'spades': return False
+            i += 1
+        return True
 
     def reset(self):
         """
@@ -85,9 +121,17 @@ class spades(object):
         #print "$$    sortedHand", sortedHand  # Debug
         return sortedHand
 
-    def obtainCpuBid(self, hand):
-        # TODO
-        return random.randint(1,4)
+    def obtainCpuBid(self, hand, mode=None):
+        """
+        Algorithm to determine the bid of a CPU player
+        """
+
+        # Easy or Hard mode will determine the algorithm/logic to use
+        if mode == None: mode = self.EASY
+
+        if mode == self.EASY: return random.randint(1,4)
+
+        # TODO Hard mode
 
     def obtainUserBid(self):
         """
@@ -96,9 +140,7 @@ class spades(object):
         allowed = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13",'null','nill','nillo','zero','none']
         response = raw_input("\nWhat is your bid? ")
         if response in allowed: return response
-        time.sleep(0.1)
-        print "\n........."
-        time.sleep(0.1)
+        self.prepareResponse()
         newResponse = raw_input("\nPlease enter a valid bid.\nWhat is your bid? ")
         if newResponse in allowed: return newResponse
         time.sleep(0.1)
@@ -106,6 +148,14 @@ class spades(object):
         time.sleep(0.1)
         print "Sorry. Defaulting to a bid of 2."
         return 2
+
+    def prepareResponse(self):
+        """
+        Prepare to give the user a response
+        """
+        time.sleep(0.1)
+        print "\n........."
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     print("Let's play Spades!")
