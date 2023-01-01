@@ -50,10 +50,10 @@ class spades(object):
         """
         Sort then print user's cards
         """
-        # TODO
+        print "inputCards: ", inputCards
         myCards = self.sortHand(inputCards)
         print "\n\n**** **** **** ****"
-        #print myCards
+        print myCards
         i = 0
         while i < len(myCards):
             print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
