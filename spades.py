@@ -30,10 +30,10 @@ class spades(object):
         p3bid = self.obtainCpuBid(playerCards["p3"])
         p4bid = self.obtainCpuBid(playerCards["p4"])
 
-        print "You bid ", p1bid
-        print "P 2 bid ", p2bid
-        print "P 3 bid ", p3bid
-        print "P 4 bid ", p4bid
+        print "You bid: ", p1bid
+        print "P 2 bid: ", p2bid
+        print "P 3 bid: ", p3bid
+        print "P 4 bid: ", p4bid
 
         # User can play first
         self.displayHand(playerCards["p1"])
@@ -51,7 +51,8 @@ class spades(object):
         Sort then print user's cards
         """
         myCards = self.sortHand(inputCards)
-        print "\n\n**** **** **** ****"
+        print "\n\n**** **** **** **** **** **** ****"
+        print "     YOUR HAND\n**** **** **** **** **** **** ****"
 
         i = 0
         while i < len(myCards):
