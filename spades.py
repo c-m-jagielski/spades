@@ -56,7 +56,7 @@ class spades(object):
         #print myCards
         i = 0
         while i < len(myCards):
-            print myCards[i]["value"], "\t", myCards[i]["suit"]
+            print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
             i += 1
 
     def sortHand(self, hand):
