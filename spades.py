@@ -14,6 +14,9 @@ class spades(object):
     # Modes for playing
     EASY = 1
     HARD = 2
+    gameMode = EASY
+
+    teamPoints = {"team1":0, "team2":0}
 
     def startGame(self):
         """
@@ -41,6 +44,8 @@ class spades(object):
         print "P 4 bid: ", p4bid
         time.sleep(.5)
 
+        roundCards = {}
+
         # User can play first
         self.displayHand(playerCards["p1"])
         usersHand = self.sortHand(playerCards["p1"])
@@ -53,8 +58,46 @@ class spades(object):
             print "\n\nYou can not select a SPADE yet. Try again."
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
+        roundCards["p1"] = usersHand[cardSelection]
+        roundCards["p2"] = None
+        roundCards["p3"] = None
+        roundCards["p4"] = None
+
+        leadSuit = roundCards["p1"]["suit"]
+
         # Time for CPU's to play
-        # TODO
+        roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit)
+        roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit)
+        roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit)
+
+        # Find out who wins this round, they will go first next round
+        winner = self.selectRoundWinner(roundCards)
+
+    def selectCPUCard(self, hand, roundCards, leadSuit):
+        """
+        CPU will select a valid card to play.
+        This function is not for when a CPU user is the lead initiating a round.
+
+        hand: [input] the current user's full hand of cards
+        roundCards: [input] dict of current cards already played this round
+        leadSuit: [input] suit that was lead this round
+        """
+        if self.gameMode == self.HARD:
+            #TODO
+            pass
+
+        print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        print "CPU hand: \t", hand
+        print "Lead suit: \t", leadSuit
+        print "Round cards: \t", roundCards
+        print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+        return None
+
+    def selectRoundWinner(self, roundCards):
+        """
+        Determine which player wins this round and obtains a trick.
+        """
+        return None
 
     def checkLeadCard(self, hand, cardSelection):
         """
@@ -65,7 +108,7 @@ class spades(object):
         cardSelection: [input] integer selection, index starts at Zero
         """
         #print "^ INDEX: ", cardSelection
-        print "^ CARD: ", hand[cardSelection]
+        #print "^ CARD: ", hand[cardSelection]
 
         if self.spadesUsed or hand[cardSelection]['suit'] != 'spades': return True
 
