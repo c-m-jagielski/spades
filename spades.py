@@ -58,42 +58,69 @@ class spades(object):
             print "\n\nYou can not select a SPADE yet. Try again."
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
+        usersHand.pop(cardSelection)
+
         roundCards["p1"] = usersHand[cardSelection]
         roundCards["p2"] = None
         roundCards["p3"] = None
         roundCards["p4"] = None
 
         leadSuit = roundCards["p1"]["suit"]
+        leadPlayer = "p1"
 
         # Time for CPU's to play
-        roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit)
-        roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit)
-        roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit)
+        roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadPlayer)
+        roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadPlayer)
+        roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadPlayer)
 
         # Find out who wins this round, they will go first next round
-        winner = self.selectRoundWinner(roundCards)
+        winner = self.selectRoundWinner(roundCards, leadSuit)
 
-    def selectCPUCard(self, hand, roundCards, leadSuit):
+    def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer):
         """
         CPU will select a valid card to play.
         This function is not for when a CPU user is the lead initiating a round.
 
+        If CPU user has same suit as lead suit, must play that.
+        If CPU user does not have same suit as lead suit, can play anything.
+
         hand: [input] the current user's full hand of cards
         roundCards: [input] dict of current cards already played this round
         leadSuit: [input] suit that was lead this round
+        leadPlayer: [input] player that lead this round
         """
-        if self.gameMode == self.HARD:
-            #TODO
-            pass
+        selection = None
 
         print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         print "CPU hand: \t", hand
         print "Lead suit: \t", leadSuit
         print "Round cards: \t", roundCards
         print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
-        return None
 
-    def selectRoundWinner(self, roundCards):
+        # User must play the suited card if they have it
+        ableToPlay = []
+        for i in range(0, len(hand)):
+            if hand[i]["suit"] == leadSuit: ableToPlay.append(hand[i])
+
+        if len(ableToPlay) < 1:
+            ableToPlay = copy.deepcopy(hand)
+        print "ableToPlay: ", ableToPlay
+
+        i = None
+        if self.gameMode == self.HARD:
+            #TODO purposefully choose which card to play
+            i = 0 #Hardcode so this doesn't break
+            pass
+        else:
+            # Choose a random card
+            i = random.randint(0,len(ableToPlay)-1)
+
+        selection = ableToPlay[i]
+        hand.pop(i)
+        print "selection: ", selection
+        return selection
+
+    def selectRoundWinner(self, roundCards, leadSuit):
         """
         Determine which player wins this round and obtains a trick.
         """
