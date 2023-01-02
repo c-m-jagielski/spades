@@ -76,6 +76,9 @@ class spades(object):
         # Find out who wins this round, they will go first next round
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
+        # The winner will go first next hand. Repeat until all 13 cards are played.
+        # TODO
+
     def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer):
         """
         CPU will select a valid card to play.
@@ -122,7 +125,7 @@ class spades(object):
 
     def selectRoundWinner(self, roundCards, leadSuit):
         """
-        Determine which player wins this round and obtains a trick.
+        Determine which player wins this round and obtains a hand.
         """
         print "\n\n\n"
         print "\tleadSuit: ", leadSuit
@@ -133,7 +136,11 @@ class spades(object):
             roundCards["p3"]["suit"], roundCards["p4"]["suit"]]
 
         winningSuit = leadSuit
-        if 'spades' in suits: winningSuit = 'spades'
+
+        # Check for spades & toggle the global spade var, too
+        if 'spades' in suits:
+            winningSuit = 'spades'
+            self.spadesUsed = True
 
         # Pick the winner; start with first eligible player then see if anyone beats them
         winner = None
