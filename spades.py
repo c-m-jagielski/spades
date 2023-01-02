@@ -124,7 +124,38 @@ class spades(object):
         """
         Determine which player wins this round and obtains a trick.
         """
-        return None
+        print "\n\n\n"
+        print "\tleadSuit: ", leadSuit
+        print "\troundCards: ", roundCards
+
+        # If someone played a spade, the highest spade wins
+        suits = [roundCards["p1"]["suit"], roundCards["p2"]["suit"],
+            roundCards["p3"]["suit"], roundCards["p4"]["suit"]]
+
+        winningSuit = leadSuit
+        if 'spades' in suits: winningSuit = 'spades'
+
+        # Pick the winner; start with first eligible player then see if anyone beats them
+        winner = None
+        eligibleCards = []
+        if roundCards["p1"]["suit"] == winningSuit: eligibleCards.append(roundCards["p1"])
+        if roundCards["p2"]["suit"] == winningSuit: eligibleCards.append(roundCards["p2"])
+        if roundCards["p3"]["suit"] == winningSuit: eligibleCards.append(roundCards["p3"])
+        if roundCards["p4"]["suit"] == winningSuit: eligibleCards.append(roundCards["p4"])
+        winner = eligibleCards[0]
+        print "###\twinner: ", winner
+        for i in range(1, len(eligibleCards)):
+            if eligibleCards[i]["index"] > winner["index"]: winner = eligibleCards[i]
+            print "###\twinner: ", winner
+
+        # Find the user that won the hand
+        winningUser = None
+        for i in ["p1", "p2", "p3", "p4"]:
+            if roundCards[i] == winner:
+                winningUser = i
+                break
+        print "winningUser: ", winningUser
+        return winningUser
 
     def checkLeadCard(self, hand, cardSelection):
         """
