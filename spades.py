@@ -47,18 +47,8 @@ class spades(object):
         roundCards = {}
 
         # User can play first
-        self.displayHand(playerCards["p1"])
         usersHand = self.sortHand(playerCards["p1"])
-        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
-
-        # Is the user's selection allowed?
-        isAllowed = self.checkLeadCard(usersHand, cardSelection)
-        if not isAllowed:
-            self.prepareResponse()
-            print "\n\nYou can not select a SPADE yet. Try again."
-            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
-
-        usersHand.pop(cardSelection)
+        cardSelection = self.userLeads(usersHand)
 
         roundCards["p1"] = usersHand[cardSelection]
         roundCards["p2"] = None
@@ -77,7 +67,25 @@ class spades(object):
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
         # The winner will go first next hand. Repeat until all 13 cards are played.
-        # TODO
+        if winner == "p1":
+            cardSelection = self.userLeads(usersHand)
+
+    def userLeads(self, usersHand):
+        """
+        Human user leads this round and selects their first card out
+        """
+        self.displayHand(usersHand)
+        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        # Is the user's selection allowed?
+        isAllowed = self.checkLeadCard(usersHand, cardSelection)
+        if not isAllowed:
+            self.prepareResponse()
+            print "\n\nYou can not select a SPADE yet. Try again."
+            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        usersHand.pop(cardSelection)
+        return cardSelection
 
     def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer):
         """
@@ -122,6 +130,11 @@ class spades(object):
         hand.pop(i)
         print "selection: ", selection
         return selection
+
+    def selectCPULeadCard(self):
+        """
+        """
+        return
 
     def selectRoundWinner(self, roundCards, leadSuit):
         """
