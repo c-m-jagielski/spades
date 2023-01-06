@@ -63,6 +63,9 @@ class spades(object):
         roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadPlayer)
         roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadPlayer)
 
+        # Remove the played cards from each player's hand
+        usersHand.pop(cardSelection)
+
         # Find out who wins this round, they will go first next round
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
@@ -101,7 +104,6 @@ class spades(object):
             print "\n\nYou can not select a SPADE yet. Try again."
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
-        usersHand.pop(cardSelection)
         return cardSelection
 
     def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer):
