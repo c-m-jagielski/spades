@@ -23,7 +23,17 @@ class spades(object):
         """
         # Start the game by dealing
         d = deck()
-        playerCards = deck.deal(d, numPlayers=4, debug=False)
+        unsortedCards = deck.deal(d, numPlayers=4, debug=False)
+
+        # Sort each player's hand
+        #tmpHand = copy.deepcopy(playerCards["p1"])
+        #tmpSorted = self.sortHand(tmpHand)
+        #playerCards["p1"] = tmpSorted
+        playerCards = {}
+        playerCards["p1"] = self.sortHand(unsortedCards["p1"])
+        playerCards["p2"] = self.sortHand(unsortedCards["p2"])
+        playerCards["p3"] = self.sortHand(unsortedCards["p3"])
+        playerCards["p4"] = self.sortHand(unsortedCards["p4"])
 
         # Show the user their hand
         self.displayHand(playerCards["p1"])
