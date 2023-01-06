@@ -67,8 +67,25 @@ class spades(object):
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
         # The winner will go first next hand. Repeat until all 13 cards are played.
-        if winner == "p1":
-            cardSelection = self.userLeads(usersHand)
+        self.playRound(winner)
+
+    def playRound(self, leadUser):
+        """
+        Play a round with the 4 players.
+        """
+
+        if leadUser == "p1":
+            pass #cardSelection = self.userLeads(usersHand)
+        else if leadUser == "p2":
+            pass
+        else if leadUser == "p3":
+            pass
+        else if leadUser == "p4":
+            pass
+        else:
+            pass
+
+        return None
 
     def userLeads(self, usersHand):
         """
