@@ -76,11 +76,11 @@ class spades(object):
 
         if leadUser == "p1":
             pass #cardSelection = self.userLeads(usersHand)
-        else if leadUser == "p2":
+        elif leadUser == "p2":
             pass
-        else if leadUser == "p3":
+        elif leadUser == "p3":
             pass
-        else if leadUser == "p4":
+        elif leadUser == "p4":
             pass
         else:
             pass
