@@ -136,8 +136,8 @@ class spades(object):
             previousRoundWinner = copy.deepcopy(winner)
 
         # Calculate points for this round
-        #TODO
-        roundPoints = {"team1": 1, "team2": 2}
+        roundPoints = {"team1": trickTotals["p1"] + trickTotals["p3"],
+                       "team2": trickTotals["p3"] + trickTotals["p4"]}
         return roundPoints
 
     def playHand(self, leadUser, playerCards):
@@ -469,6 +469,14 @@ class spades(object):
         """
         outcome = None
 
+        # Print team standings
+        print "\n\n"
+        print "------ ------ ------ ------"
+        print "       Team 1:      ", self.teamPoints["team1"]
+        print "       Team 2:      ", self.teamPoints["team2"]
+        print "------ ------ ------ ------"
+        print " "
+
         # Compare teamPoints to threshold
         if self.teamPoints["team1"] > self.pointsToWin:
             if self.teamPoints["team2"] > self.pointsToWin:
@@ -482,7 +490,6 @@ class spades(object):
             # Team 2 wins
             outcome = "team2"
 
-        # TODO print team standings
         # TODO print a big banner when there's a winner
         if outcome: print "\n\n\nWINNER!!! ", outcome
         return outcome
