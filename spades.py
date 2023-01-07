@@ -26,9 +26,6 @@ class spades(object):
         unsortedCards = deck.deal(d, numPlayers=4, debug=False)
 
         # Sort each player's hand
-        #tmpHand = copy.deepcopy(playerCards["p1"])
-        #tmpSorted = self.sortHand(tmpHand)
-        #playerCards["p1"] = tmpSorted
         playerCards = {}
         playerCards["p1"] = self.sortHand(unsortedCards["p1"])
         playerCards["p2"] = self.sortHand(unsortedCards["p2"])
@@ -57,10 +54,9 @@ class spades(object):
         roundCards = {}
 
         # User can play first
-        usersHand = self.sortHand(playerCards["p1"])
-        cardSelection = self.userLeads(usersHand)
+        cardSelection = self.userLeads(playerCards["p1"])
 
-        roundCards["p1"] = usersHand[cardSelection]
+        roundCards["p1"] = playerCards["p1"][cardSelection]
         roundCards["p2"] = None
         roundCards["p3"] = None
         roundCards["p4"] = None
@@ -74,7 +70,7 @@ class spades(object):
         roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadPlayer)
 
         # Remove the played cards from each player's hand
-        usersHand.pop(cardSelection)
+        playerCards["p1"].pop(cardSelection)
 
         # Find out who wins this round, they will go first next round
         winner = self.selectRoundWinner(roundCards, leadSuit)
@@ -237,7 +233,7 @@ class spades(object):
         """
         Sort then print user's cards
         """
-        myCards = self.sortHand(inputCards)
+        myCards = inputCards #self.sortHand(inputCards)
         print "\n\n**** **** **** **** **** **** ****"
         print "          YOUR HAND\n**** **** **** **** **** **** ****"
 
