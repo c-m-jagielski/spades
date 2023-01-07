@@ -131,7 +131,7 @@ class spades(object):
         # A round has 13 hands to play in order to add up all the tricks
         trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
         for r in range(1,14):
-            winner = self.playHand(previousRoundWinner)
+            winner = self.playHand(previousRoundWinner, playerCards)
             trickTotals[winner] += 1
             previousRoundWinner = copy.deepcopy(winner)
 
@@ -140,7 +140,7 @@ class spades(object):
         roundPoints = {"team1": 1, "team2": 2}
         return roundPoints
 
-    def playHand(self, leadUser):
+    def playHand(self, leadUser, playerCards):
         """
         Play a single hand, each player submits a card and somebody wins the trick.
         """
