@@ -189,6 +189,7 @@ class spades(object):
         Human user leads this round and selects their first card out
         """
         self.displayHand(usersHand)
+        print "\n\nYou have the lead this hand."
         cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
         # Is the user's selection allowed?
@@ -236,11 +237,13 @@ class spades(object):
         """
         selection = None
 
+        """
         print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         print "CPU hand: \t", hand
         print "Lead suit: \t", leadSuit
         print "Round cards: \t", roundCards
         print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+        """
 
         # User must play the suited card if they have it
         ableToPlay = []
