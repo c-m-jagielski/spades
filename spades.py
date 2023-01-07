@@ -17,6 +17,7 @@ class spades(object):
     gameMode = EASY
 
     teamPoints = {"team1":0, "team2":0}
+    teamSandbags = {"team1":0, "team2":0}
     pointsToWin = 1  # 500
 
     def startGame(self):
@@ -34,6 +35,19 @@ class spades(object):
 
             self.teamPoints["team1"] += roundPoints["team1"]
             self.teamPoints["team2"] += roundPoints["team2"]
+
+            # Account for sandbags
+            print "\n\nSandbag Count:"
+            print "\tTeam 1: ", self.teamSandbags["team1"]
+            print "\tTeam 2: ", self.teamSandbags["team2"]
+            if self.teamSandbags["team1"] == 10:
+                self.teamSandbags["team1"] = 0
+                self.teamPoints["team1"] -= 100
+                print "\n\n\nTeam 1 just lost 100 points from sandbags!"
+            if self.teamSandbags["team2"] == 10:
+                self.teamSandbags["team2"] = 0
+                self.teamPoints["team2"] -= 100
+                print "\n\n\nTeam 2 just lost 100 points from sandbags!"
 
     def playRound(self, leadUser="p1"):
         """
@@ -125,8 +139,8 @@ class spades(object):
         time.sleep(.5)
 
         # Calculate team bids for this roundCards
-        team1bid = p1bid + p3bid
-        team2bid = p2bid + p4bid
+        team1Bid = p1bid + p3bid
+        team2Bid = p2bid + p4bid
 
         # A round has 13 hands to play in order to add up all the tricks
         trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
@@ -135,9 +149,21 @@ class spades(object):
             trickTotals[winner] += 1
             previousRoundWinner = copy.deepcopy(winner)
 
-        # Calculate points for this round
-        roundPoints = {"team1": trickTotals["p1"] + trickTotals["p3"],
-                       "team2": trickTotals["p3"] + trickTotals["p4"]}
+        # Calculate points for this round; calculate sandbags; subtract if bid not met
+        team1Total = trickTotals["p1"] + trickTotals["p3"]
+        team2Total = trickTotals["p3"] + trickTotals["p4"]
+        team1Score = 0
+        team2Score = 0
+        if team1Total >= team1Bid:
+            self.teamSandbags["team1"] += (team1Total - team1Bid)
+            team1Score = 10 * team1Total
+        else: team1Score = -10 * team1Total
+        if team2Total >= team2Bid:
+            self.teamSandbags["team2"] += (team2Total - team2Bid)
+            team2Score = 10 * team2Total
+        else: team2Score = -10 * team2Total
+
+        roundPoints = {"team1": team1Score, "team2": team2Score}
         return roundPoints
 
     def playHand(self, leadUser, playerCards):
