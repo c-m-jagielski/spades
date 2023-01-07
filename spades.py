@@ -43,9 +43,6 @@ class spades(object):
         # Initialize who bids first & who leads first
         previousRoundWinner = copy.deepcopy(leadUser)
 
-        #for r in range(1,14):
-        #    winner = self.playHand(leadUser=previousRoundWinner)
-
         # Start the round by dealing
         d = deck()
         unsortedCards = deck.deal(d, numPlayers=4, debug=False)
@@ -57,27 +54,72 @@ class spades(object):
         playerCards["p3"] = self.sortHand(unsortedCards["p3"])
         playerCards["p4"] = self.sortHand(unsortedCards["p4"])
 
-        # Show the user their hand
-        self.displayHand(playerCards["p1"])
-
+        # Get the bids from the 4 players, and ask them in order
+        p1bid = None
+        p2bid = None
+        p3bid = None
+        p4bid = None
         if leadUser == "p1":
-            pass #cardSelection = self.userLeads(usersHand)
+            # Show the user their hand and get their bid first
+            self.displayHand(playerCards["p1"])
+            p1bid = self.obtainUserBid()
+
+            # Now CPU's will bid
+            p2bid = self.obtainCpuBid(playerCards["p2"])
+            p3bid = self.obtainCpuBid(playerCards["p3"])
+            p4bid = self.obtainCpuBid(playerCards["p4"])
+
         elif leadUser == "p2":
-            pass
+            p2bid = self.obtainCpuBid(playerCards["p2"])
+            p3bid = self.obtainCpuBid(playerCards["p3"])
+            p4bid = self.obtainCpuBid(playerCards["p4"])
+
+            # Show the user their hand and get their bid
+            print " "
+            time.sleep(.5)
+            print "P 2 bid: ", p2bid
+            print "P 3 bid: ", p3bid
+            print "P 4 bid: ", p4bid
+            time.sleep(.5)
+
+            self.displayHand(playerCards["p1"])
+            p1bid = self.obtainUserBid()
+
         elif leadUser == "p3":
-            pass
+            p3bid = self.obtainCpuBid(playerCards["p3"])
+            p4bid = self.obtainCpuBid(playerCards["p4"])
+
+            # Show the user their hand and get their bid
+            print " "
+            time.sleep(.5)
+            print "P 3 bid: ", p3bid
+            print "P 4 bid: ", p4bid
+            time.sleep(.5)
+            self.displayHand(playerCards["p1"])
+            p1bid = self.obtainUserBid()
+
+            p2bid = self.obtainCpuBid(playerCards["p2"])
+
         elif leadUser == "p4":
-            pass
-        else:
-            pass
+            p4bid = self.obtainCpuBid(playerCards["p4"])
 
-        # Assume the user is going to bid first to start a game
-        p1bid = self.obtainUserBid()
+            # Show the user their hand and get their bid
+            print " "
+            time.sleep(.5)
+            print "P 4 bid: ", p4bid
+            time.sleep(.5)
+            self.displayHand(playerCards["p1"])
+            p1bid = self.obtainUserBid()
 
-        # Obtain bids from the CPU users
-        p2bid = self.obtainCpuBid(playerCards["p2"])
-        p3bid = self.obtainCpuBid(playerCards["p3"])
-        p4bid = self.obtainCpuBid(playerCards["p4"])
+            p2bid = self.obtainCpuBid(playerCards["p2"])
+            p3bid = self.obtainCpuBid(playerCards["p3"])
+        else: pass
+
+        # A round has 13 hands to play in order to add up all the tricks
+        trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
+        #for r in range(1,14):
+        #    winner = self.playHand(leadUser=previousRoundWinner)
+        #    trickTotals["winner"] += 1
 
         print " "
         time.sleep(.5)
@@ -337,6 +379,7 @@ class spades(object):
 
         # TODO print team standings
         # TODO print a big banner when there's a winner
+        if outcome: print "\n\n\nWINNER!!! ", outcome
         return outcome
 
 if __name__ == "__main__":
