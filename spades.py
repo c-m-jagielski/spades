@@ -115,12 +115,7 @@ class spades(object):
             p3bid = self.obtainCpuBid(playerCards["p3"])
         else: pass
 
-        # A round has 13 hands to play in order to add up all the tricks
-        trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
-        #for r in range(1,14):
-        #    winner = self.playHand(leadUser=previousRoundWinner)
-        #    trickTotals["winner"] += 1
-
+        # Display the bids to the user
         print " "
         time.sleep(.5)
         print "You bid: ", p1bid
@@ -128,6 +123,16 @@ class spades(object):
         print "P 3 bid: ", p3bid
         print "P 4 bid: ", p4bid
         time.sleep(.5)
+
+        # Calculate team bids for this roundCards
+        team1bid = p1bid + p3bid
+        team2bid = p2bid + p4bid
+
+        # A round has 13 hands to play in order to add up all the tricks
+        trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
+        #for r in range(1,14):
+        #    winner = self.playHand(leadUser=previousRoundWinner)
+        #    trickTotals["winner"] += 1
 
         roundCards = {}
 
