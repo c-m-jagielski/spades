@@ -17,23 +17,35 @@ class spades(object):
     gameMode = EASY
 
     teamPoints = {"team1":0, "team2":0}
+    pointsToWin = 1  # 500
 
     def startGame(self):
         """
-        Play a full game of 13 rounds.
+        Play a game until 1 team reaches 500 points.
         """
 
-        for r in range(1,14):
-            pass
+        # Use a count to determine which player will bid and lead first each round
+        i = 0
+        leaderSelection = {0:"p1", 1:"p2", 2:"p3", 3:"p4"}
 
-        self.playRound(leadUser='p1')
+        while not self.hasTeamWon():
+            roundPoints = self.playRound(leadUser=leaderSelection[i%4])
+            i += 1
 
-        return None
+            self.teamPoints["team1"] += roundPoints["team1"]
+            self.teamPoints["team2"] += roundPoints["team2"]
 
     def playRound(self, leadUser="p1"):
         """
-        Play a round with the 4 players.
+        Play a full round with the 4 players of 13 hands.
         """
+
+        # Initialize who bids first & who leads first
+        previousRoundWinner = copy.deepcopy(leadUser)
+
+        #for r in range(1,14):
+        #    winner = self.playHand(leadUser=previousRoundWinner)
+
         # Start the round by dealing
         d = deck()
         unsortedCards = deck.deal(d, numPlayers=4, debug=False)
@@ -59,7 +71,7 @@ class spades(object):
         else:
             pass
 
-        # Assume the user is going to bid first
+        # Assume the user is going to bid first to start a game
         p1bid = self.obtainUserBid()
 
         # Obtain bids from the CPU users
@@ -90,8 +102,10 @@ class spades(object):
         # Find out who wins this round, they will go first next round
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
-        # The winner will go first next hand. Repeat until all 13 cards are played.
-        #self.playRound(winner)
+        # Calculate points for this round
+        #TODO
+        roundPoints = {"team1": 1, "team2": 2}
+        return roundPoints
 
     def userLeads(self, usersHand):
         """
@@ -301,6 +315,29 @@ class spades(object):
         time.sleep(0.1)
         print "\n........."
         time.sleep(0.1)
+
+    def hasTeamWon(self):
+        """
+        Has either team won yet?
+        """
+        outcome = None
+
+        # Compare teamPoints to threshold
+        if self.teamPoints["team1"] > self.pointsToWin:
+            if self.teamPoints["team2"] > self.pointsToWin:
+                # Both teams have enough, so winner is team with more
+                if self.teamPoints["team1"] > self.teamPoints["team2"]: outcome = "team1"
+                else: outcome = "team2"
+            else:
+                # Team 1 wins
+                outcome = "team1"
+        if self.teamPoints["team2"] > self.pointsToWin:
+            # Team 2 wins
+            outcome = "team2"
+
+        # TODO print team standings
+        # TODO print a big banner when there's a winner
+        return outcome
 
 if __name__ == "__main__":
     print("Let's play Spades!")
