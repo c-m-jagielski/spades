@@ -53,15 +53,8 @@ class spades(object):
 
         roundCards = {}
 
-        # User can play first
-        #cardSelection = self.userLeads(playerCards["p1"])
-
-        #roundCards["p1"] = playerCards["p1"][cardSelection]
+        # User leads in the first round
         roundCards["p1"] = self.userLeads(playerCards["p1"])
-        roundCards["p2"] = None
-        roundCards["p3"] = None
-        roundCards["p4"] = None
-
         leadPlayer = "p1"
         leadSuit = roundCards[leadPlayer]["suit"]
 
@@ -69,9 +62,6 @@ class spades(object):
         roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadPlayer)
         roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadPlayer)
         roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadPlayer)
-
-        # Remove the played cards from each player's hand
-        #playerCards["p1"].pop(cardSelection)
 
         # Find out who wins this round, they will go first next round
         winner = self.selectRoundWinner(roundCards, leadSuit)
