@@ -130,29 +130,44 @@ class spades(object):
 
         # A round has 13 hands to play in order to add up all the tricks
         trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
-        #for r in range(1,14):
-        #    winner = self.playHand(leadUser=previousRoundWinner)
-        #    trickTotals["winner"] += 1
-
-        roundCards = {}
-
-        # User leads in the first round
-        roundCards["p1"] = self.userLeads(playerCards["p1"])
-        leadPlayer = "p1"
-        leadSuit = roundCards[leadPlayer]["suit"]
-
-        # Time for CPU's to play
-        roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadPlayer)
-        roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadPlayer)
-        roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadPlayer)
-
-        # Find out who wins this round, they will go first next round
-        winner = self.selectRoundWinner(roundCards, leadSuit)
+        for r in range(1,14):
+            winner = self.playHand(previousRoundWinner)
+            trickTotals[winner] += 1
+            previousRoundWinner = copy.deepcopy(winner)
 
         # Calculate points for this round
         #TODO
         roundPoints = {"team1": 1, "team2": 2}
         return roundPoints
+
+    def playHand(self, leadUser):
+        """
+        Play a single hand, each player submits a card and somebody wins the trick.
+        """
+        roundCards = {}
+        leadSuit = None
+
+        if leadUser == "p1":
+            roundCards["p1"] = self.userLeads(playerCards["p1"])
+            leadSuit = roundCards[leadUser]["suit"]
+
+            # Time for CPU's to play
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+
+        if leadUser == "p2":
+            pass
+
+        if leadUser == "p3":
+            pass
+
+        if leadUser == "p4":
+            pass
+
+        # Find out who wins this hand, they get a trick & will go first next hand
+        winner = self.selectRoundWinner(roundCards, leadSuit)
+        return winner
 
     def userLeads(self, usersHand):
         """
@@ -344,14 +359,20 @@ class spades(object):
         User submits their bid. Check that it's legit.
         """
         allowed = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13",'null','nill','nillo','zero','none']
+        nillos = ['null','nill','nillo','zero','none']
+
         response = raw_input("\nWhat is your bid? ")
-        if response in allowed: return response
+        if response in allowed:
+            if response in nillos: return 0
+            return int(response)
+
         self.prepareResponse()
         newResponse = raw_input("\nPlease enter a valid bid.\nWhat is your bid? ")
-        if newResponse in allowed: return newResponse
-        time.sleep(0.1)
-        print "\n........."
-        time.sleep(0.1)
+        if newResponse in allowed:
+            if newResponse in nillos: return 0
+            return int(newResponse)
+
+        self.prepareResponse()
         print "Sorry. Defaulting to a bid of 2."
         return 2
 
