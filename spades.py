@@ -20,8 +20,21 @@ class spades(object):
 
     def startGame(self):
         """
+        Play a full game of 13 rounds.
         """
-        # Start the game by dealing
+
+        for r in range(1,14):
+            pass
+
+        self.playRound(leadUser='p1')
+
+        return None
+
+    def playRound(self, leadUser="p1"):
+        """
+        Play a round with the 4 players.
+        """
+        # Start the round by dealing
         d = deck()
         unsortedCards = deck.deal(d, numPlayers=4, debug=False)
 
@@ -34,6 +47,17 @@ class spades(object):
 
         # Show the user their hand
         self.displayHand(playerCards["p1"])
+
+        if leadUser == "p1":
+            pass #cardSelection = self.userLeads(usersHand)
+        elif leadUser == "p2":
+            pass
+        elif leadUser == "p3":
+            pass
+        elif leadUser == "p4":
+            pass
+        else:
+            pass
 
         # Assume the user is going to bid first
         p1bid = self.obtainUserBid()
@@ -67,25 +91,7 @@ class spades(object):
         winner = self.selectRoundWinner(roundCards, leadSuit)
 
         # The winner will go first next hand. Repeat until all 13 cards are played.
-        self.playRound(winner)
-
-    def playRound(self, leadUser):
-        """
-        Play a round with the 4 players.
-        """
-
-        if leadUser == "p1":
-            pass #cardSelection = self.userLeads(usersHand)
-        elif leadUser == "p2":
-            pass
-        elif leadUser == "p3":
-            pass
-        elif leadUser == "p4":
-            pass
-        else:
-            pass
-
-        return None
+        #self.playRound(winner)
 
     def userLeads(self, usersHand):
         """
