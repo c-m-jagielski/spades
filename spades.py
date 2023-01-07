@@ -157,7 +157,7 @@ class spades(object):
             roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
 
         if leadUser == "p2":
-            pass
+            roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"])
 
         if leadUser == "p3":
             pass
@@ -231,10 +231,36 @@ class spades(object):
         print "selection: ", selection
         return selection
 
-    def selectCPULeadCard(self):
+    def selectCPULeadCard(self, hand):
         """
+        Select the lead card the CPU player will play for a given hand.
+
+        In EASY mode, make it random.
+        In HARD mode, purposefully choose which card to lead with.
         """
-        return
+
+        ableToPlay = []
+
+        if self.spadesUsed:
+            # Can lead with anything
+            ableToPlay = copy.deepcopy(hand)
+        else:
+            for i in range(0, len(hand)):
+                if hand[i]["suit"] != 'spades': ableToPlay.append(hand[i])
+
+        i = None
+        if self.gameMode == self.HARD:
+            #TODO purposefully choose which card to play
+            i = 0 #Hardcode so this doesn't break
+            pass
+        else:
+            # Choose a random card
+            i = random.randint(0,len(ableToPlay)-1)
+
+        selection = ableToPlay[i]
+        hand.pop(i)
+        print "selection: ", selection
+        return selection
 
     def selectRoundWinner(self, roundCards, leadSuit):
         """
