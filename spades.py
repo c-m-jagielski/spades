@@ -158,12 +158,27 @@ class spades(object):
 
         if leadUser == "p2":
             roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"])
+            leadSuit = roundCards[leadUser]["suit"]
+
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+            roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
 
         if leadUser == "p3":
-            pass
+            roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"])
+            leadSuit = roundCards[leadUser]["suit"]
+
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+            roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
 
         if leadUser == "p4":
-            pass
+            roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"])
+            leadSuit = roundCards[leadUser]["suit"]
+
+            roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
 
         # Find out who wins this hand, they get a trick & will go first next hand
         winner = self.selectRoundWinner(roundCards, leadSuit)
@@ -181,6 +196,25 @@ class spades(object):
         if not isAllowed:
             self.prepareResponse()
             print "\n\nYou can not select a SPADE yet. Try again."
+            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        cardSelected = usersHand[cardSelection]
+        usersHand.pop(cardSelection)
+        return cardSelected
+
+    def userPlays(self, usersHand, leadSuit):
+        """
+        Human user plays a card in this round. User is not leading the hand.
+        """
+        self.displayHand(usersHand)
+        print "\n\nLead suit was", leadSuit
+        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+
+        # Is the user's selection allowed?
+        isAllowed = self.checkPlayedCard(usersHand, cardSelection, leadSuit)
+        if not isAllowed:
+            self.prepareResponse()
+            print "\n\nYour selection is not allowed. Try again."
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
         cardSelected = usersHand[cardSelection]
@@ -305,7 +339,7 @@ class spades(object):
 
     def checkLeadCard(self, hand, cardSelection):
         """
-        Check if a card played is allowed or not.
+        Check if a lead card played is allowed or not.
         Spades can't be lead unless already played or if user has no other choice.
 
         hand: [input] the user's hand, json format
@@ -321,6 +355,22 @@ class spades(object):
         while i < len(hand):
             if hand[i]['suit'] != 'spades': return False
             i += 1
+        return True
+
+    def checkPlayedCard(self, hand, cardSelection, leadSuit):
+        """
+        Check if a card played is allowed or not.
+        Off-suit can't be played in response to a hand unless the lead was spades or the
+         user has no cards of the lead suit.
+        """
+        if hand[cardSelection]['suit'] == leadSuit: return True
+
+        i = 0
+        while i < len(hand):
+            if hand[i]['suit'] == leadSuit: return False
+            i += 1
+
+        # At this point we know the user's card played is off-suit & anything is allowed.
         return True
 
     def reset(self):
