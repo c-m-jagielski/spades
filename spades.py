@@ -173,6 +173,7 @@ class spades(object):
         roundCards = {}
         leadSuit = None
 
+        time.sleep(1.5)
         print "\n__________________________________________________________________"
         print "\t\tYour team has", trickTotals["p1"] + trickTotals["p3"], "tricks."
         print "\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks."
@@ -301,7 +302,8 @@ class spades(object):
         selection = ableToPlay[i]
         hand.pop(i)
         #print "selection: ", selection
-        print "\nPlayer", whoAmI, "played ", selection['value'], "of", selection['suit']
+        print "\nPlayer", whoAmI, "played the", selection['value'], "of", selection['suit']
+        time.sleep(0.2)
         return selection
 
     def selectCPULeadCard(self, hand, whoAmI):
@@ -332,8 +334,8 @@ class spades(object):
         selection = ableToPlay[i]
         hand.pop(i)
         #print "selection: ", selection
-        print "\nPlayer", whoAmI, "lead with the ", selection['value'], "of", selection['suit']
-        time.sleep(0.1)
+        print "\nPlayer", whoAmI, "lead with the", selection['value'], "of", selection['suit']
+        time.sleep(0.2)
         return selection
 
     def selectRoundWinner(self, roundCards, leadSuit):
@@ -374,7 +376,9 @@ class spades(object):
             if roundCards[i] == winner:
                 winningUser = i
                 break
-        print "Winner:   ", winningUser
+        time.sleep(0.1)
+        print "\nWinner:   ", winningUser
+        time.sleep(0.1)
         return winningUser
 
     def checkLeadCard(self, hand, cardSelection):
