@@ -151,7 +151,7 @@ class spades(object):
 
         # Calculate points for this round; calculate sandbags; subtract if bid not met
         team1Total = trickTotals["p1"] + trickTotals["p3"]
-        team2Total = trickTotals["p3"] + trickTotals["p4"]
+        team2Total = trickTotals["p2"] + trickTotals["p4"]
         team1Score = 0
         team2Score = 0
         if team1Total >= team1Bid:
