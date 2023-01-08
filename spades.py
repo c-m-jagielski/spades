@@ -75,7 +75,11 @@ class spades(object):
         p4bid = None
         if leadUser == "p1":
             # Show the user their hand and get their bid first
+            time.sleep(0.2)
+            print "You bid first this round."
+            time.sleep(0.2)
             self.displayHand(playerCards["p1"])
+            time.sleep(0.2)
             p1bid = self.obtainUserBid()
 
             # Now CPU's will bid
@@ -92,7 +96,9 @@ class spades(object):
             print " "
             time.sleep(.5)
             print "P 2 bid: ", p2bid
+            time.sleep(.1)
             print "P 3 bid: ", p3bid
+            time.sleep(.1)
             print "P 4 bid: ", p4bid
             time.sleep(.5)
 
@@ -107,6 +113,7 @@ class spades(object):
             print " "
             time.sleep(.5)
             print "P 3 bid: ", p3bid
+            time.sleep(.1)
             print "P 4 bid: ", p4bid
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
@@ -133,8 +140,11 @@ class spades(object):
         print " "
         time.sleep(.5)
         print "You bid: ", p1bid
+        time.sleep(.1)
         print "P 2 bid: ", p2bid
+        time.sleep(.1)
         print "P 3 bid: ", p3bid
+        time.sleep(.1)
         print "P 4 bid: ", p4bid
         time.sleep(.5)
 
@@ -303,7 +313,7 @@ class spades(object):
         hand.pop(i)
         #print "selection: ", selection
         print "\nPlayer", whoAmI, "played the", selection['value'], "of", selection['suit']
-        time.sleep(0.2)
+        time.sleep(0.35)
         return selection
 
     def selectCPULeadCard(self, hand, whoAmI):
@@ -335,7 +345,7 @@ class spades(object):
         hand.pop(i)
         #print "selection: ", selection
         print "\nPlayer", whoAmI, "lead with the", selection['value'], "of", selection['suit']
-        time.sleep(0.2)
+        time.sleep(0.35)
         return selection
 
     def selectRoundWinner(self, roundCards, leadSuit):
@@ -376,9 +386,9 @@ class spades(object):
             if roundCards[i] == winner:
                 winningUser = i
                 break
-        time.sleep(0.1)
+        time.sleep(0.2)
         print "\nWinner:   ", winningUser
-        time.sleep(0.1)
+        time.sleep(0.2)
         return winningUser
 
     def checkLeadCard(self, hand, cardSelection):
@@ -431,12 +441,14 @@ class spades(object):
         myCards = inputCards #self.sortHand(inputCards)
         print "\n\n**** **** **** **** **** **** ****"
         print "          YOUR HAND\n**** **** **** **** **** **** ****"
+        time.sleep(0.1)
 
         i = 0
         while i < len(myCards):
             print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
             i += 1
         print " "
+        time.sleep(0.2)
 
     def sortHand(self, hand):
         """
@@ -566,6 +578,7 @@ class spades(object):
 
 if __name__ == "__main__":
     print("Let's play Spades!")
+    time.sleep(0.1)
     #val = raw_input("Enter your value: ")    # convert to input() for python 3.6
     playerName = raw_input("What is your name? ")
     if playerName=="": playerName = "Player 1"
