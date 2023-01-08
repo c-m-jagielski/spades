@@ -145,7 +145,7 @@ class spades(object):
         # A round has 13 hands to play in order to add up all the tricks
         trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
         for r in range(1,14):
-            winner = self.playHand(previousRoundWinner, playerCards)
+            winner = self.playHand(previousRoundWinner, playerCards, trickTotals)
             trickTotals[winner] += 1
             previousRoundWinner = copy.deepcopy(winner)
 
@@ -166,45 +166,54 @@ class spades(object):
         roundPoints = {"team1": team1Score, "team2": team2Score}
         return roundPoints
 
-    def playHand(self, leadUser, playerCards):
+    def playHand(self, leadUser, playerCards, trickTotals):
         """
         Play a single hand, each player submits a card and somebody wins the trick.
         """
         roundCards = {}
         leadSuit = None
 
+        print "\n__________________________________________________________________"
+        print "\t\tYour team has", trickTotals["p1"] + trickTotals["p3"], "tricks."
+        print "\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks."
+        print "__________________________________________________________________\n"
+
         if leadUser == "p1":
+            print "You have the lead this hand."
             roundCards["p1"] = self.userLeads(playerCards["p1"])
             leadSuit = roundCards[leadUser]["suit"]
 
             # Time for CPU's to play
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
 
         if leadUser == "p2":
-            roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"])
+            print "Player 2 has the lead this hand."
+            roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"], 'p2')
             leadSuit = roundCards[leadUser]["suit"]
 
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
 
         if leadUser == "p3":
-            roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"])
+            print "Player 3 has the lead this hand."
+            roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"], 'p3')
             leadSuit = roundCards[leadUser]["suit"]
 
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser)
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
 
         if leadUser == "p4":
-            roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"])
+            print "Player 4 has the lead this hand."
+            roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"], 'p4')
             leadSuit = roundCards[leadUser]["suit"]
 
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser)
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser)
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
 
         # Find out who wins this hand, they get a trick & will go first next hand
         winner = self.selectRoundWinner(roundCards, leadSuit)
@@ -248,7 +257,7 @@ class spades(object):
         usersHand.pop(cardSelection)
         return cardSelected
 
-    def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer):
+    def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer, whoAmI):
         """
         CPU will select a valid card to play.
         This function is not for when a CPU user is the lead initiating a round.
@@ -260,6 +269,7 @@ class spades(object):
         roundCards: [input] dict of current cards already played this round
         leadSuit: [input] suit that was lead this round
         leadPlayer: [input] player that lead this round
+        whoAmI: [input] string of who this CPU user is
         """
         selection = None
 
@@ -278,7 +288,7 @@ class spades(object):
 
         if len(ableToPlay) < 1:
             ableToPlay = copy.deepcopy(hand)
-        print "ableToPlay: ", ableToPlay
+        #print "ableToPlay: ", ableToPlay
 
         i = 0
         if self.gameMode == self.HARD:
@@ -290,10 +300,11 @@ class spades(object):
 
         selection = ableToPlay[i]
         hand.pop(i)
-        print "selection: ", selection
+        #print "selection: ", selection
+        print "\nPlayer", whoAmI, "played ", selection['value'], "of", selection['suit']
         return selection
 
-    def selectCPULeadCard(self, hand):
+    def selectCPULeadCard(self, hand, whoAmI):
         """
         Select the lead card the CPU player will play for a given hand.
 
@@ -320,16 +331,18 @@ class spades(object):
 
         selection = ableToPlay[i]
         hand.pop(i)
-        print "selection: ", selection
+        #print "selection: ", selection
+        print "\nPlayer", whoAmI, "lead with the ", selection['value'], "of", selection['suit']
+        time.sleep(0.1)
         return selection
 
     def selectRoundWinner(self, roundCards, leadSuit):
         """
         Determine which player wins this round and obtains a hand.
         """
-        print "\n\n\n"
-        print "\tleadSuit: ", leadSuit
-        print "\troundCards: ", roundCards
+        #print "\n\n\n"
+        #print "\tleadSuit: ", leadSuit
+        #print "\troundCards: ", roundCards
 
         # If someone played a spade, the highest spade wins
         suits = [roundCards["p1"]["suit"], roundCards["p2"]["suit"],
@@ -350,10 +363,10 @@ class spades(object):
         if roundCards["p3"]["suit"] == winningSuit: eligibleCards.append(roundCards["p3"])
         if roundCards["p4"]["suit"] == winningSuit: eligibleCards.append(roundCards["p4"])
         winner = eligibleCards[0]
-        print "###\twinner: ", winner
+        #print "###\twinner: ", winner
         for i in range(1, len(eligibleCards)):
             if eligibleCards[i]["index"] > winner["index"]: winner = eligibleCards[i]
-            print "###\twinner: ", winner
+            #print "###\twinner: ", winner
 
         # Find the user that won the hand
         winningUser = None
@@ -361,7 +374,7 @@ class spades(object):
             if roundCards[i] == winner:
                 winningUser = i
                 break
-        print "winningUser: ", winningUser
+        print "Winner:   ", winningUser
         return winningUser
 
     def checkLeadCard(self, hand, cardSelection):
