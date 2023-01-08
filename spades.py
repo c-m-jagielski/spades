@@ -14,7 +14,7 @@ class spades(object):
     # Modes for playing
     EASY = 1
     HARD = 2
-    gameMode = EASY
+    gameMode = HARD #EASY
 
     teamPoints = {"team1":0, "team2":0}
     teamSandbags = {"team1":0, "team2":0}
@@ -280,11 +280,10 @@ class spades(object):
             ableToPlay = copy.deepcopy(hand)
         print "ableToPlay: ", ableToPlay
 
-        i = None
+        i = 0
         if self.gameMode == self.HARD:
-            #TODO purposefully choose which card to play
-            i = 0 #Hardcode so this doesn't break
-            pass
+            # Purposefully choose which card to play
+            i = random.randint(0,len(ableToPlay)-1)
         else:
             # Choose a random card
             i = random.randint(0,len(ableToPlay)-1)
@@ -311,11 +310,10 @@ class spades(object):
             for i in range(0, len(hand)):
                 if hand[i]["suit"] != 'spades': ableToPlay.append(hand[i])
 
-        i = None
+        i = 0
         if self.gameMode == self.HARD:
-            #TODO purposefully choose which card to play
-            i = 0 #Hardcode so this doesn't break
-            pass
+            # Purposefully choose which card to play
+            i = random.randint(0,len(ableToPlay)-1)
         else:
             # Choose a random card
             i = random.randint(0,len(ableToPlay)-1)
@@ -447,17 +445,45 @@ class spades(object):
         #print "$$    sortedHand", sortedHand  # Debug
         return sortedHand
 
-    def obtainCpuBid(self, hand, mode=None):
+    def obtainCpuBid(self, hand):
         """
-        Algorithm to determine the bid of a CPU player
+        Algorithm to determine the bid of a CPU player.
+        Bid is randomly chosen in EASY mode, implying the CPU doesn't know what it's doing
+        and can easily mess up.
         """
 
-        # Easy or Hard mode will determine the algorithm/logic to use
-        if mode == None: mode = self.EASY
+        # Easy mode will randomly choose a low/reasonable number
+        if self.gameMode == self.EASY: return random.randint(1,4)
 
-        if mode == self.EASY: return random.randint(1,4)
+        # Hard mode
+        bid = 0
 
-        # TODO Hard mode
+        # Go through their hand to obtain a few metrics.
+        numSpades = 0
+        numHearts = 0
+        numDiamonds = 0
+        numClubs = 0
+        queenOrHigher = 0
+
+        for i in range(0, 13):
+            card = hand[i]
+            if card['suit'] == 'spades': numSpades += 1
+            if card['suit'] == 'hearts': numHearts += 1
+            if card['suit'] == 'diamonds': numDiamonds += 1
+            if card['suit'] == 'clubs': numClubs += 1
+            if card['value'] == 'Q': queenOrHigher += 1
+            if card['value'] == 'K': queenOrHigher += 1
+            if card['value'] == 'A': queenOrHigher += 1
+
+        # If user has a few high spades, need to bid a certain amount since it's very
+        # likely to win those hands.
+        #if
+
+        # Let the CPU go nill under certain very conservative conditions.
+        # No spades, & nothing higher than Jack.
+
+        #DEBUG... this is a last resort to prevent the game from crashing
+        return random.randint(1,4)
 
     def obtainUserBid(self):
         """
