@@ -555,9 +555,10 @@ class spades(object):
             else:
                 # Team 1 wins
                 outcome = "team1"
-        if self.teamPoints["team2"] > self.pointsToWin:
+        elif self.teamPoints["team2"] > self.pointsToWin:
             # Team 2 wins
             outcome = "team2"
+        else: pass
 
         # TODO print a big banner when there's a winner
         if outcome: print "\n\n\nWINNER!!! ", outcome
