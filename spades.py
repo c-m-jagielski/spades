@@ -438,14 +438,14 @@ class spades(object):
         """
         Sort then print user's cards
         """
-        myCards = inputCards #self.sortHand(inputCards)
+        time.sleep(0.2)
         print "\n\n**** **** **** **** **** **** ****"
         print "          YOUR HAND\n**** **** **** **** **** **** ****"
         time.sleep(0.1)
 
         i = 0
-        while i < len(myCards):
-            print i+1, ")\t", myCards[i]["value"], "\t", myCards[i]["suit"]
+        while i < len(inputCards):
+            print i+1, ")\t", inputCards[i]["value"], "\t", inputCards[i]["suit"]
             i += 1
         print " "
         time.sleep(0.2)
