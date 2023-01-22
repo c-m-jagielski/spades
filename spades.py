@@ -9,6 +9,8 @@ class spades(object):
     d = None
     playerCards = {}
     playerBids = {"p1":None, "p2":None, "p3":None, "p4":None}
+    yourTeamBid = 0
+    opponentTeamBid = 0
     spadesUsed = False
 
     # Modes for playing
@@ -69,10 +71,6 @@ class spades(object):
         playerCards["p4"] = self.sortHand(unsortedCards["p4"])
 
         # Get the bids from the 4 players, and ask them in order
-        p1bid = None
-        p2bid = None
-        p3bid = None
-        p4bid = None
         if leadUser == "p1":
             # Show the user their hand and get their bid first
             time.sleep(0.2)
@@ -80,17 +78,17 @@ class spades(object):
             time.sleep(0.2)
             self.displayHand(playerCards["p1"])
             time.sleep(0.2)
-            p1bid = self.obtainUserBid()
+            self.playerBids['p1'] = self.obtainUserBid()
 
             # Now CPU's will bid
-            p2bid = self.obtainCpuBid(playerCards["p2"])
-            p3bid = self.obtainCpuBid(playerCards["p3"])
-            p4bid = self.obtainCpuBid(playerCards["p4"])
+            self.playerBids['p2'] = self.obtainCpuBid(playerCards["p2"])
+            self.playerBids['p3'] = self.obtainCpuBid(playerCards["p3"])
+            self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
         elif leadUser == "p2":
-            p2bid = self.obtainCpuBid(playerCards["p2"])
-            p3bid = self.obtainCpuBid(playerCards["p3"])
-            p4bid = self.obtainCpuBid(playerCards["p4"])
+            self.playerBids['p2'] = self.obtainCpuBid(playerCards["p2"])
+            self.playerBids['p3'] = self.obtainCpuBid(playerCards["p3"])
+            self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
             print " "
@@ -103,11 +101,11 @@ class spades(object):
             time.sleep(.5)
 
             self.displayHand(playerCards["p1"])
-            p1bid = self.obtainUserBid()
+            self.playerBids['p1'] = self.obtainUserBid()
 
         elif leadUser == "p3":
-            p3bid = self.obtainCpuBid(playerCards["p3"])
-            p4bid = self.obtainCpuBid(playerCards["p4"])
+            self.playerBids['p3'] = self.obtainCpuBid(playerCards["p3"])
+            self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
             print " "
@@ -117,12 +115,12 @@ class spades(object):
             print "P 4 bid: ", p4bid
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
-            p1bid = self.obtainUserBid()
+            self.playerBids['p1'] = self.obtainUserBid()
 
-            p2bid = self.obtainCpuBid(playerCards["p2"])
+            self.playerBids['p2'] = self.obtainCpuBid(playerCards["p2"])
 
         elif leadUser == "p4":
-            p4bid = self.obtainCpuBid(playerCards["p4"])
+            self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
             print " "
@@ -130,27 +128,32 @@ class spades(object):
             print "P 4 bid: ", p4bid
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
-            p1bid = self.obtainUserBid()
+            self.playerBids['p1'] = self.obtainUserBid()
 
-            p2bid = self.obtainCpuBid(playerCards["p2"])
-            p3bid = self.obtainCpuBid(playerCards["p3"])
+            self.playerBids['p2'] = self.obtainCpuBid(playerCards["p2"])
+            self.playerBids['p3'] = self.obtainCpuBid(playerCards["p3"])
         else: pass
 
         # Display the bids to the user
         print " "
         time.sleep(.5)
-        print "You bid: ", p1bid
+        print "You bid: ", self.playerBids['p1']
         time.sleep(.1)
-        print "P 2 bid: ", p2bid
+        print "P 2 bid: ", self.playerBids['p2']
         time.sleep(.1)
-        print "P 3 bid: ", p3bid
+        print "P 3 bid: ", self.playerBids['p3']
         time.sleep(.1)
-        print "P 4 bid: ", p4bid
-        time.sleep(.5)
+        print "P 4 bid: ", self.playerBids['p4']
+        time.sleep(.3)
 
         # Calculate team bids for this roundCards
-        team1Bid = p1bid + p3bid
-        team2Bid = p2bid + p4bid
+        self.yourTeamBid = self.playerBids['p1'] + self.playerBids['p3']
+        self.opponentTeamBid = self.playerBids['p2'] + self.playerBids['p4']
+        print " "
+        print "Your Team bid: ", self.yourTeamBid
+        time.sleep(.1)
+        print "Their Team bid: ", self.opponentTeamBid
+        time.sleep(.5)
 
         # A round has 13 hands to play in order to add up all the tricks
         trickTotals = {"p1":0, "p2":0, "p3":0, "p4":0}
@@ -164,12 +167,12 @@ class spades(object):
         team2Total = trickTotals["p2"] + trickTotals["p4"]
         team1Score = 0
         team2Score = 0
-        if team1Total >= team1Bid:
-            self.teamSandbags["team1"] += (team1Total - team1Bid)
+        if team1Total >= self.yourTeamBid:
+            self.teamSandbags["team1"] += (team1Total - self.yourTeamBid)
             team1Score = 10 * team1Total
         else: team1Score = -10 * team1Total
         if team2Total >= team2Bid:
-            self.teamSandbags["team2"] += (team2Total - team2Bid)
+            self.teamSandbags["team2"] += (team2Total - self.opponentTeamBid)
             team2Score = 10 * team2Total
         else: team2Score = -10 * team2Total
 
@@ -185,8 +188,8 @@ class spades(object):
 
         time.sleep(1.5)
         print "\n__________________________________________________________________"
-        print "\t\tYour team has", trickTotals["p1"] + trickTotals["p3"], "tricks."
-        print "\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks."
+        print "\t\tYour team has", trickTotals["p1"] + trickTotals["p3"], "tricks.\tYou bid", self.yourTeamBid
+        print "\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks.\tThey bid", self.opponentTeamBid
         print "__________________________________________________________________\n"
 
         if leadUser == "p1":
