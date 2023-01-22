@@ -478,7 +478,7 @@ class spades(object):
         """
         Algorithm to determine the bid of a CPU player.
         Bid is randomly chosen in EASY mode, implying the CPU doesn't know what it's doing
-        and can easily mess up.
+        and can easily mess up during the game.
         """
 
         # Easy mode will randomly choose a low/reasonable number
@@ -493,10 +493,14 @@ class spades(object):
         numDiamonds = 0
         numClubs = 0
         queenOrHigher = 0
+        spadesAbove7 = 0
 
         for i in range(0, 13):
             card = hand[i]
-            if card['suit'] == 'spades': numSpades += 1
+            if card['suit'] == 'spades':
+                numSpades += 1
+                if card['value'] not in ['1', '2', '3', '4', '5', '6', '7']:
+                    spadesAbove7 += 1
             if card['suit'] == 'hearts': numHearts += 1
             if card['suit'] == 'diamonds': numDiamonds += 1
             if card['suit'] == 'clubs': numClubs += 1
@@ -506,10 +510,14 @@ class spades(object):
 
         # If user has a few high spades, need to bid a certain amount since it's very
         # likely to win those hands.
+        # TODO
         #if
 
         # Let the CPU go nill under certain very conservative conditions.
-        # No spades, & nothing higher than Jack.
+        # No spades, & nothing higher than Jack in any suit.
+        if numSpades = 0 and queenOrHigher = 0: return 0
+        # Only 1 spade, which is 7 or lower, and only 1 other suited card above Jack.
+        if numSpades < 2 and spadesAbove7 = 0 and queenOrHigher < 2: return 0
 
         #DEBUG... this is a last resort to prevent the game from crashing
         return random.randint(1,4)
@@ -572,8 +580,17 @@ class spades(object):
             outcome = "team2"
         else: pass
 
-        # TODO print a big banner when there's a winner
-        if outcome: print "\n\n\nWINNER!!! ", outcome
+        # Print a big banner when there's a winner
+        if outcome:
+            print "******************************************************"
+            print "******************************************************"
+            print "******************************************************"
+            print "\n\n\nWINNER!!! ", outcome
+            print "\n\n"
+            print "******************************************************"
+            print "******************************************************"
+            print "******************************************************"
+
         return outcome
 
 if __name__ == "__main__":
