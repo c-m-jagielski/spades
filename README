@@ -11,3 +11,7 @@
 
 # A hand played is a single set of 4 cards, 1 card from each player, to determine who wins
 # the trick from that round.
+
+### Known Bugs
+# (1) CPU users are able to play the same card multiple times. Their hands are decreasing
+#     in size every hand, implying the card they played is being removed, but perhaps not.
