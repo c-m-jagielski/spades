@@ -515,9 +515,9 @@ class spades(object):
 
         # Let the CPU go nill under certain very conservative conditions.
         # No spades, & nothing higher than Jack in any suit.
-        if numSpades = 0 and queenOrHigher = 0: return 0
+        if numSpades == 0 and queenOrHigher == 0: return 0
         # Only 1 spade, which is 7 or lower, and only 1 other suited card above Jack.
-        if numSpades < 2 and spadesAbove7 = 0 and queenOrHigher < 2: return 0
+        if numSpades < 2 and spadesAbove7 == 0 and queenOrHigher < 2: return 0
 
         #DEBUG... this is a last resort to prevent the game from crashing
         return random.randint(1,4)
