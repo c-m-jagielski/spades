@@ -284,13 +284,15 @@ class spades(object):
         """
         selection = None
 
-        """
+        #"""
         print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-        print "CPU hand: \t", hand
-        print "Lead suit: \t", leadSuit
-        print "Round cards: \t", roundCards
+        print "CPU USER: \t", whoAmI
+        print "CPU Hand: \t", len(hand)
+        #print "CPU hand: \t", hand
+        #print "Lead suit: \t", leadSuit
+        #print "Round cards: \t", roundCards
         print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
-        """
+        #"""
 
         # User must play the suited card if they have it
         ableToPlay = []
@@ -323,6 +325,14 @@ class spades(object):
         In EASY mode, make it random.
         In HARD mode, purposefully choose which card to lead with.
         """
+
+        #"""
+        print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+        print "CPU USER: \t", whoAmI
+        print "CPU Hand: \t", len(hand)
+        #print "CPU hand: \t", hand
+        print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+        #"""
 
         ableToPlay = []
 
