@@ -336,6 +336,7 @@ class spades(object):
         i = 0
         if self.gameMode == self.HARD:
             # Purposefully choose which card to play
+            #winDesire = self.doIWantToWinThisHand()
             i = random.randint(0,len(ableToPlay)-1)
         else:
             # Choose a random card
@@ -426,6 +427,20 @@ class spades(object):
 
         # At this point we know the user's card played is off-suit & anything is allowed.
         return True
+
+    def doIWantToWinThisHand(self):
+        """
+        Optimize if the CPU wants to win this hand or not.
+        Returns integer that is later used to choose which card to use to win.
+            0.0 - this is 0% want-to-win, so by all means try to *not* win the hand
+            0.5 - this is 50/50, basically either is fine
+            1.0 - this is 100% must win, so do everything possible to win
+            else- TODO ... some advanced way to determine preferences/strategy...
+                - for example if 0.8 is returned, then perhaps you can try to win with a
+                  _somewhat_ strong card, but not necessary your best card (don't waste
+                  an Ace of Spades on an 0.8 unless that's all you have left)
+        """
+        return 1.0
 
     def reset(self):
         """
