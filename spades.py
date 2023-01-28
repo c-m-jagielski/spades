@@ -353,18 +353,28 @@ class spades(object):
             for i in range(0, len(hand)):
                 if hand[i]["suit"] != 'spades': ableToPlay.append(hand[i])
 
-        i = 0
+        # Initialize the chosen card with something random
+        i = random.randint(0,len(ableToPlay)-1)
+
         if self.gameMode == self.HARD:
             # Purposefully choose which card to play
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
-            i = random.randint(0,len(ableToPlay)-1)
-        else:
-            # Choose a random card
-            i = random.randint(0,len(ableToPlay)-1)
+            print "CPU ", whoAmI, " Win Desire: ", winDesire
+
+            # Figure out which cards will win (or might win) and choose one now
+            if winDesire == 0:
+                # Lead the lowest non-spade (if possible)
+                # Pick the first card and see if anything is lower than it
+                tmpCard = ableToPlay[0]
+                i = 0
+                for ii in range(1, len(ableToPlay)):
+                    if ableToPlay[ii]["rank"] < tmpCard["rank"]:
+                        print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", ableToPlay[ii]
+                        tmpCard = ableToPlay[ii]
+                        i = ii
 
         selection = ableToPlay[i]
         hand.pop(i)
-        #print "selection: ", selection
         print "\nPlayer", whoAmI, "lead with the", selection['value'], "of", selection['suit']
         time.sleep(0.35)
         return selection
@@ -462,10 +472,16 @@ class spades(object):
         """
 
         # If this CPU player went nill, return 0.0
-        # TODO
+        if self.playerBids[whoAmI] == 0: return 0.0
+
+        # Set up local variables to use
+        myTeamMate = "p1"
+        if whoAmI == "p2": myTeamMate = "p4"
+        if whoAmI == "p4": myTeamMate = "p2"
 
         # If my team mate went nill and they're currently winning the hand, return 1.0
-        # TODO
+        #if self.playerBids[myTeamMate] == 0 and .....
+        #TODO
 
         # Does our team still need to win any more tricks this game?
         haveNotMetBid = False
