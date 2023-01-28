@@ -287,7 +287,7 @@ class spades(object):
         """
         selection = None
 
-        #"""
+        """
         print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         print "CPU USER: \t", whoAmI
         print "CPU Hand: \t", len(hand)
@@ -295,7 +295,7 @@ class spades(object):
         #print "Lead suit: \t", leadSuit
         #print "Round cards: \t", roundCards
         print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
-        #"""
+        """
 
         # User must play the suited card if they have it
         ableToPlay = []
@@ -306,17 +306,24 @@ class spades(object):
             ableToPlay = copy.deepcopy(hand)
         #print "ableToPlay: ", ableToPlay
 
-        i = 0
+        ableIndex = 0
         if self.gameMode == self.HARD:
             # Purposefully choose which card to play
-            i = random.randint(0,len(ableToPlay)-1)
+            ableIndex = random.randint(0,len(ableToPlay)-1)
         else:
             # Choose a random card
-            i = random.randint(0,len(ableToPlay)-1)
+            ableIndex = random.randint(0,len(ableToPlay)-1)
 
-        selection = ableToPlay[i]
-        hand.pop(i)
+        selection = ableToPlay[ableIndex]
         #print "selection: ", selection
+        #print "ableIndex: \t", ableIndex
+
+        for i in range(0, len(hand)):
+            if hand[i] == selection:
+                #print "about to pop hand[i]: ", hand[i]
+                hand.pop(i)
+                break
+
         print "\nPlayer", whoAmI, "played the", selection['value'], "of", selection['suit']
         time.sleep(0.35)
         return selection
@@ -329,13 +336,13 @@ class spades(object):
         In HARD mode, purposefully choose which card to lead with.
         """
 
-        #"""
+        """
         print "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         print "CPU USER: \t", whoAmI
         print "CPU Hand: \t", len(hand)
         #print "CPU hand: \t", hand
         print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
-        #"""
+        """
 
         ableToPlay = []
 
