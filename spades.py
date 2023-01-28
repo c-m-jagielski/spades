@@ -9,8 +9,8 @@ class spades(object):
     d = None
     playerCards = {}
     playerBids = {"p1":None, "p2":None, "p3":None, "p4":None}
-    yourTeamBid = 0
-    opponentTeamBid = 0
+    yourTeamBid = 0        # For players p1 and p3
+    opponentTeamBid = 0    # For players p2 and p4
     spadesUsed = False
 
     # Modes for playing
@@ -204,7 +204,7 @@ class spades(object):
 
         if leadUser == "p2":
             print "Player 2 has the lead this hand."
-            roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"], 'p2')
+            roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"], 'p2', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
             roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
@@ -213,7 +213,7 @@ class spades(object):
 
         if leadUser == "p3":
             print "Player 3 has the lead this hand."
-            roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"], 'p3')
+            roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"], 'p3', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
             roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
@@ -222,7 +222,7 @@ class spades(object):
 
         if leadUser == "p4":
             print "Player 4 has the lead this hand."
-            roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"], 'p4')
+            roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"], 'p4', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
@@ -328,7 +328,7 @@ class spades(object):
         time.sleep(0.35)
         return selection
 
-    def selectCPULeadCard(self, hand, whoAmI):
+    def selectCPULeadCard(self, hand, whoAmI, trickTotals):
         """
         Select the lead card the CPU player will play for a given hand.
 
@@ -356,7 +356,7 @@ class spades(object):
         i = 0
         if self.gameMode == self.HARD:
             # Purposefully choose which card to play
-            #winDesire = self.doIWantToWinThisHand()
+            winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
             i = random.randint(0,len(ableToPlay)-1)
         else:
             # Choose a random card
@@ -448,7 +448,7 @@ class spades(object):
         # At this point we know the user's card played is off-suit & anything is allowed.
         return True
 
-    def doIWantToWinThisHand(self):
+    def doIWantToWinThisHand(self, whoAmI, trickTotals):
         """
         Optimize if the CPU wants to win this hand or not.
         Returns integer that is later used to choose which card to use to win.
@@ -460,6 +460,30 @@ class spades(object):
                   _somewhat_ strong card, but not necessary your best card (don't waste
                   an Ace of Spades on an 0.8 unless that's all you have left)
         """
+
+        # If this CPU player went nill, return 0.0
+        # TODO
+
+        # If my team mate went nill and they're currently winning the hand, return 1.0
+        # TODO
+
+        # Does our team still need to win any more tricks this game?
+        haveNotMetBid = False
+        if whoAmI == "p2":
+            if (trickTotals["p2"] + trickTotals["p4"]) < self.opponentTeamBid: haveNotMetBid = True
+        else:
+            if (trickTotals["p1"] + trickTotals["p3"]) < self.yourTeamBid: haveNotMetBid = True
+
+        # If our team needs to win tricks, do I want to win this one
+        # or do I have the ability to win enough later? I.e. Ace of Spades guaranteed win
+        # TODO
+
+        # Would I like to try and set my opponents?
+        # TODO
+
+        # Choice depends on player position this hand (leading, 2nd, 3rd, or last)...
+        # TODO
+
         return 1.0
 
     def reset(self):
