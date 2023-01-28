@@ -171,7 +171,7 @@ class spades(object):
             self.teamSandbags["team1"] += (team1Total - self.yourTeamBid)
             team1Score = 10 * team1Total
         else: team1Score = -10 * team1Total
-        if team2Total >= team2Bid:
+        if team2Total >= self.opponentTeamBid:
             self.teamSandbags["team2"] += (team2Total - self.opponentTeamBid)
             team2Score = 10 * team2Total
         else: team2Score = -10 * team2Total
