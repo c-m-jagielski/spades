@@ -356,7 +356,8 @@ class spades(object):
         # Initialize the chosen card with something random
         i = random.randint(0,len(ableToPlay)-1)
 
-        if self.gameMode == self.HARD:
+        # Do advanced calculations for HARD mode only when we have more than 1 option to play.
+        if self.gameMode == self.HARD and len(ableToPlay) > 1:
             # Purposefully choose which card to play
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
             print "CPU ", whoAmI, " Win Desire: ", winDesire
