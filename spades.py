@@ -389,12 +389,14 @@ class spades(object):
 
                 if len(hand) > 10:
                     # If early in the game, can lead with an ACE without too much risk.
-                    pass
-
+                    for ii in range(1, len(ableToPlay)):
+                        if ableToPlay[ii]["value"] == "A":
+                            print "DEBUG: CPU going to lead with ", ableToPlay[ii]
+                            i = ii
+                            break
                 elif ableToLeadSpade:
                     # Lead with a high spade is a near-guaranteed win.
                     pass
-
                 else:
                     # Pick highest overall card
                     # TODO
