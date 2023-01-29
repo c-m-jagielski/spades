@@ -362,6 +362,10 @@ class spades(object):
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
             print "CPU ", whoAmI, " Win Desire: ", winDesire
 
+            # Count cards to determine win probability with what I have!!!
+            # Will make the CPU very smart..... until then, do some simple logic.
+            # TODO
+
             # Figure out which cards will win (or might win) and choose one now
             if winDesire == 0:
                 # Lead the lowest non-spade (if possible)
@@ -376,10 +380,7 @@ class spades(object):
             elif winDesire == 1:
                 # Pick the best card with which to lead.
 
-                # TODO count card to determine win probability with what I have!!!
-                # Will make the CPU very smart..... until then, do some simple logic:
-
-                # If early in the game, can lead with an ACE without risk.
+                # If early in the game, can lead with an ACE without too much risk.
                 # TODO
 
                 # Lead with a high spade is a near-guaranteed win.
@@ -387,7 +388,24 @@ class spades(object):
                 pass
             elif winDesire < 0.5:
                 # Win Desire is between 0.0 and 0.5, so pick something low but not my lowest
-                # TODO
+                # TODO make this scale somehow
+
+                # Find the lowest rank then throw that away from my options.
+                adjustedAbleToPlay = {}
+                lowestRank = 999
+                for ii in range(1, len(ableToPlay)):
+                    if ableToPlay[ii]["rank"] > lowestRank: lowestRank = ableToPlay[ii]["rank"]
+                for ii in range(1, len(ableToPlay)):
+                    if ableToPlay[ii]["rank"] > lowestRank: adjustedAbleToPlay.append(ableToPlay[ii])
+
+                # Find the lowest now from my adjusted list, and lead with that.
+                tmpCard = adjustedAbleToPlay[0]
+                i = 0
+                for ii in range(1, len(adjustedAbleToPlay)):
+                    if adjustedAbleToPlay[ii]["rank"] < tmpCard["rank"]:
+                        print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", adjustedAbleToPlay[ii]
+                        tmpCard = adjustedAbleToPlay[ii]
+                        i = ii
                 pass
             else:
                 # Win Desire is between 0.5 and 1.0, so pick something high but not my highest
