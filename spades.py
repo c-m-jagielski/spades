@@ -372,6 +372,26 @@ class spades(object):
                         print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", ableToPlay[ii]
                         tmpCard = ableToPlay[ii]
                         i = ii
+            elif winDesire == 1:
+                # Pick the best card with which to lead.
+
+                # TODO count card to determine win probability with what I have!!!
+                # Will make the CPU very smart..... until then, do some simple logic:
+
+                # If early in the game, can lead with an ACE without risk.
+                # TODO
+
+                # Lead with a high spade is a near-guaranteed win.
+                # TODO
+                pass
+            elif winDesire < 0.5:
+                # Win Desire is between 0.0 and 0.5, so pick something low but not my lowest
+                # TODO
+                pass
+            else:
+                # Win Desire is between 0.5 and 1.0, so pick something high but not my highest
+                # TODO
+                pass
 
         selection = ableToPlay[i]
         hand.pop(i)
