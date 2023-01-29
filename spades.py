@@ -362,6 +362,13 @@ class spades(object):
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
             print "CPU ", whoAmI, " Win Desire: ", winDesire
 
+            # Do I have a Spade in my hand?
+            ableToLeadSpade = False
+            for ii in range(1, len(ableToPlay)):
+                if ableToPlay[ii]["suit"] == "spades":
+                    ableToLeadSpade = True
+                    break
+
             # Count cards to determine win probability with what I have!!!
             # Will make the CPU very smart..... until then, do some simple logic.
             # TODO
@@ -380,12 +387,18 @@ class spades(object):
             elif winDesire == 1:
                 # Pick the best card with which to lead.
 
-                # If early in the game, can lead with an ACE without too much risk.
-                # TODO
+                if len(hand) > 10:
+                    # If early in the game, can lead with an ACE without too much risk.
+                    pass
 
-                # Lead with a high spade is a near-guaranteed win.
-                # TODO
-                pass
+                elif ableToLeadSpade:
+                    # Lead with a high spade is a near-guaranteed win.
+                    pass
+
+                else:
+                    # Pick highest overall card
+                    # TODO
+                    pass
             elif winDesire < 0.5:
                 # Win Desire is between 0.0 and 0.5, so pick something low but not my lowest
                 # TODO make this scale somehow
@@ -406,7 +419,6 @@ class spades(object):
                         print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", adjustedAbleToPlay[ii]
                         tmpCard = adjustedAbleToPlay[ii]
                         i = ii
-                pass
             else:
                 # Win Desire is between 0.5 and 1.0, so pick something high but not my highest
                 # TODO
