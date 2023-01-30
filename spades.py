@@ -258,7 +258,18 @@ class spades(object):
         """
         self.displayHand(usersHand)
         print "\n\nLead suit was", leadSuit
-        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+        cardSelection = 0
+        while 1:
+            try:
+                cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+            except ValueError:
+                time.sleep(0.2)
+                print "...."
+                print "Please enter an INTEGER for your hand.\n"
+                time.sleep(0.1)
+                continue
+            else:
+                break
 
         # Is the user's selection allowed?
         isAllowed = self.checkPlayedCard(usersHand, cardSelection, leadSuit)
