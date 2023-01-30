@@ -198,17 +198,17 @@ class spades(object):
             leadSuit = roundCards[leadUser]["suit"]
 
             # Time for CPU's to play
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2', trickTotals)
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3', trickTotals)
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4', trickTotals)
 
         if leadUser == "p2":
             print "Player 2 has the lead this hand."
             roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"], 'p2', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3', trickTotals)
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4', trickTotals)
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
 
         if leadUser == "p3":
@@ -216,9 +216,9 @@ class spades(object):
             roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"], 'p3', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
-            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4')
+            roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4', trickTotals)
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2', trickTotals)
 
         if leadUser == "p4":
             print "Player 4 has the lead this hand."
@@ -226,8 +226,8 @@ class spades(object):
             leadSuit = roundCards[leadUser]["suit"]
 
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
-            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2')
-            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3')
+            roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2', trickTotals)
+            roundCards["p3"] = self.selectCPUCard(playerCards["p3"], roundCards, leadSuit, leadUser, 'p3', trickTotals)
 
         # Find out who wins this hand, they get a trick & will go first next hand
         winner = self.selectRoundWinner(roundCards, leadSuit)
@@ -282,7 +282,7 @@ class spades(object):
         usersHand.pop(cardSelection)
         return cardSelected
 
-    def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer, whoAmI):
+    def selectCPUCard(self, hand, roundCards, leadSuit, leadPlayer, whoAmI, trickTotals):
         """
         CPU will select a valid card to play.
         This function is not for when a CPU user is the lead initiating a round.
@@ -295,6 +295,7 @@ class spades(object):
         leadSuit: [input] suit that was lead this round
         leadPlayer: [input] player that lead this round
         whoAmI: [input] string of who this CPU user is
+        trickTotals: [input] dict of current trick totals for each player
         """
         selection = None
 
@@ -317,13 +318,13 @@ class spades(object):
             ableToPlay = copy.deepcopy(hand)
         #print "ableToPlay: ", ableToPlay
 
-        ableIndex = 0
+        # By default start out with a random card
+        ableIndex = random.randint(0,len(ableToPlay)-1)
+
+        # In HARD mode, purposefully choose which card to play
         if self.gameMode == self.HARD:
-            # Purposefully choose which card to play
-            ableIndex = random.randint(0,len(ableToPlay)-1)
-        else:
-            # Choose a random card
-            ableIndex = random.randint(0,len(ableToPlay)-1)
+            winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
+            print "CPU ", whoAmI, " Win Desire: ", winDesire
 
         selection = ableToPlay[ableIndex]
         #print "selection: ", selection
@@ -371,7 +372,7 @@ class spades(object):
         if self.gameMode == self.HARD and len(ableToPlay) > 1:
             # Purposefully choose which card to play
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
-            print "CPU ", whoAmI, " Win Desire: ", winDesire
+            print "CPU ", whoAmI, " Lead Win Desire: ", winDesire
 
             # Do I have a Spade in my hand?
             ableToLeadSpade = False
