@@ -1,0 +1,21 @@
+name: Pylint
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install dependencies
+      run: pip install pylint
+    - name: Run Pylint
+      run: pylint --rcfile=.pylintrc <your_python_file>.py
+
