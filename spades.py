@@ -14,6 +14,13 @@ class spades(object):
     opponentTeamBid = 0    # For players p2 and p4
     spadesUsed = False
 
+    suit_symbols = {
+        'spades': u'\033[30;47m \u2660 \033[0m',
+        'hearts': u'\033[31;47m \u2665 \033[0m',
+        'diamonds': u'\033[31;47m \u2666 \033[0m',
+        'clubs': u'\033[30;47m \u2663 \033[0m'
+    }
+
     # Modes for playing
     EASY = 1
     HARD = 2
@@ -596,7 +603,7 @@ class spades(object):
 
         i = 0
         while i < len(inputCards):
-            print i+1, ")\t", inputCards[i]["value"], "\t", inputCards[i]["suit"]
+            print i+1, ")\t", inputCards[i]["value"], "\t", self.suit_symbols[inputCards[i]["suit"]]
             i += 1
         print " "
         time.sleep(0.2)
