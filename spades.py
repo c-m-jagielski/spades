@@ -437,7 +437,7 @@ class spades(object):
                 # TODO make this scale somehow
 
                 # Find the lowest rank then throw that away from my options.
-                adjustedAbleToPlay = {}
+                adjustedAbleToPlay = []
                 lowestRank = 999
                 for ii in range(1, len(ableToPlay)):
                     if ableToPlay[ii]["rank"] > lowestRank: lowestRank = ableToPlay[ii]["rank"]
