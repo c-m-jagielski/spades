@@ -25,7 +25,7 @@ class spades(object):
 
     def __init__(self, logger):
         self.logger = logger
-        self.logger.debug("This is a debug message from chatgpt")
+        self.logger.info("Now starting the game....")
 
     def startGame(self):
         """
@@ -398,7 +398,7 @@ class spades(object):
                 i = 0
                 for ii in range(1, len(ableToPlay)):
                     if ableToPlay[ii]["rank"] < tmpCard["rank"]:
-                        print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", ableToPlay[ii]
+                        logger.debug("CPU was going to lead with %s, but is now going to lead with %s", tmpCard, ableToPlay[ii])
                         tmpCard = ableToPlay[ii]
                         i = ii
             elif winDesire == 1:
@@ -622,7 +622,7 @@ class spades(object):
                     sortedHand.append(blah)
                     break
                 handIndex += 1
-        #print "$$    sortedHand", sortedHand  # Debug
+        #logger.debug("$$    sortedHand", sortedHand)
         return sortedHand
 
     def obtainCpuBid(self, hand):
@@ -779,7 +779,7 @@ if __name__ == "__main__":
     # define a dictionary that maps log levels to ANSI escape codes
     ANSI_COLORS = {
         logging.DEBUG: ANSI_GREEN,
-        logging.INFO: ANSI_RESET,
+        logging.INFO: ANSI_GREEN,
         logging.WARNING: ANSI_YELLOW,
         logging.ERROR: ANSI_RED,
         logging.CRITICAL: ANSI_RED
@@ -788,7 +788,7 @@ if __name__ == "__main__":
     # add the custom logging filter to the console handler
     ch.addFilter(ColorFilter())
 
-    logger.debug('This is a debug message')
+    #logger.debug('This is a debug message')
 
     print("Let's play Spades!")
     time.sleep(0.1)
