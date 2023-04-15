@@ -105,11 +105,11 @@ class spades(object):
             # Show the user their hand and get their bid
             print " "
             time.sleep(.5)
-            print "P 2 bid: ", p2bid
+            print "P 2 bid: ", self.playerBids['p2']
             time.sleep(.1)
-            print "P 3 bid: ", p3bid
+            print "P 3 bid: ", self.playerBids['p3']
             time.sleep(.1)
-            print "P 4 bid: ", p4bid
+            print "P 4 bid: ", self.playerBids['p4']
             time.sleep(.5)
 
             self.displayHand(playerCards["p1"])
@@ -122,9 +122,9 @@ class spades(object):
             # Show the user their hand and get their bid
             print " "
             time.sleep(.5)
-            print "P 3 bid: ", p3bid
+            print "P 3 bid: ", self.playerBids['p3']
             time.sleep(.1)
-            print "P 4 bid: ", p4bid
+            print "P 4 bid: ", self.playerBids['p4']
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
             self.playerBids['p1'] = self.obtainUserBid()
@@ -137,7 +137,7 @@ class spades(object):
             # Show the user their hand and get their bid
             print " "
             time.sleep(.5)
-            print "P 4 bid: ", p4bid
+            print "P 4 bid: ", self.playerBids['p4']
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
             self.playerBids['p1'] = self.obtainUserBid()
