@@ -1,9 +1,14 @@
-# python code for a deck of cards
+"""
+python code for a deck of cards
+"""
 
 import json
 import random
 
 class deck(object):
+    """
+    class to shuffle and deal a deck of cards
+    """
 
     size = 52
     S = "spades"
@@ -16,7 +21,7 @@ class deck(object):
         """
         Shuffle the cards so that the imported deck is now in a random order
         """
-        if cards==None: return None
+        if cards is None: return None
 
         i = 0
         tmp = cards
@@ -49,6 +54,9 @@ class deck(object):
         newCards = self.shuffle(data)
         if debug: print newCards
 
+        #TODO handle if not 4 players
+        if numPlayers != 4: print "halp! ... TODO"
+
         player1 = newCards[0:13]
         player2 = newCards[13:26]
         player3 = newCards[26:39]
@@ -58,9 +66,9 @@ class deck(object):
         return playerCards
 
 if __name__ == "__main__":
-    print("init")
-    f = open('cards.json')
-    data = json.load(f)
+    print "init"
+    #f = open('cards.json')
+    #data = json.load(f)
     #print data
 
     d = deck()
