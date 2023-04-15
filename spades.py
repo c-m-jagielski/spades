@@ -1,6 +1,7 @@
 # Spades game
 from deck import deck
 import random, copy, time
+import logging
 
 class spades(object):
 
@@ -21,6 +22,10 @@ class spades(object):
     teamPoints = {"team1":0, "team2":0}
     teamSandbags = {"team1":0, "team2":0}
     pointsToWin = 1  # 500
+
+    def __init__(self, logger):
+        self.logger = logger
+        self.logger.debug("This is a debug message from chatgpt")
 
     def startGame(self):
         """
@@ -739,12 +744,57 @@ class spades(object):
 
         return outcome
 
+# create a custom logging filter that applies ANSI escape codes to log levels
+class ColorFilter(logging.Filter):
+    def filter(self, record):
+        record.levelname = ANSI_COLORS.get(record.levelno, ANSI_RESET) + record.levelname + ANSI_RESET
+        return True
+
 if __name__ == "__main__":
+    # create a logger object
+    logger = logging.getLogger(__name__)
+
+    # set the logging level to DEBUG
+    logger.setLevel(logging.DEBUG)
+
+    # create a console handler
+    ch = logging.StreamHandler()
+
+    # set the logging level to DEBUG
+    logger.setLevel(logging.DEBUG)
+
+    # set the format of the console handler
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    ch.setFormatter(formatter)
+
+    # add the console handler to the logger
+    logger.addHandler(ch)
+
+    # define ANSI escape codes for different log levels
+    ANSI_RESET = '\033[0m'
+    ANSI_RED = '\033[31m'
+    ANSI_GREEN = '\033[32m'
+    ANSI_YELLOW = '\033[33m'
+
+    # define a dictionary that maps log levels to ANSI escape codes
+    ANSI_COLORS = {
+        logging.DEBUG: ANSI_GREEN,
+        logging.INFO: ANSI_RESET,
+        logging.WARNING: ANSI_YELLOW,
+        logging.ERROR: ANSI_RED,
+        logging.CRITICAL: ANSI_RED
+    }
+
+    # add the custom logging filter to the console handler
+    ch.addFilter(ColorFilter())
+
+    logger.debug('This is a debug message')
+
     print("Let's play Spades!")
     time.sleep(0.1)
     #val = raw_input("Enter your value: ")    # convert to input() for python 3.6
     playerName = raw_input("What is your name? ")
     if playerName=="": playerName = "Player 1"
 
-    game = spades()
+    game = spades(logger)
     game.startGame()
