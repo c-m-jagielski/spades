@@ -17,5 +17,5 @@ jobs:
     - name: Install dependencies
       run: pip install pylint
     - name: Run Pylint
-      run: pylint --rcfile=.pylintrc <your_python_file>.py
+      run: pylint --rcfile=.pylintrc *.py
 
