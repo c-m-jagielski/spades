@@ -28,14 +28,14 @@ class deck(object):
         new = []
         while i < self.size:
             x1 = random.randint(0, len(tmp)-1)
-            #print x1
+            #print(x1)
             new.append(tmp[x1])
             tmp.pop(x1)
             i += 1
         if debug:
-            print new
-            print tmp
-            print len(new)
+            print(new)
+            print(tmp)
+            print(len(new))
         return new
 
     def deal(self, numPlayers=4, debug=False):
@@ -44,7 +44,7 @@ class deck(object):
         """
         f = open('cards.json')
         data = json.load(f)
-        if debug: print data
+        if debug: print(data)
 
         player1 = []
         player2 = []
@@ -52,10 +52,10 @@ class deck(object):
         player4 = []
 
         newCards = self.shuffle(data)
-        if debug: print newCards
+        if debug: print(newCards)
 
         #TODO handle if not 4 players
-        if numPlayers != 4: print "halp! ... TODO"
+        if numPlayers != 4: print("halp! ... TODO")
 
         player1 = newCards[0:13]
         player2 = newCards[13:26]
@@ -66,10 +66,10 @@ class deck(object):
         return playerCards
 
 if __name__ == "__main__":
-    print "init"
+    print("init")
     #f = open('cards.json')
     #data = json.load(f)
-    #print data
+    #print(data)
 
     d = deck()
     d.deal()

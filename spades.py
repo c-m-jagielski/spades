@@ -1,4 +1,5 @@
 # Spades game
+from __future__ import print_function
 from deck import deck
 import random, copy, time
 import logging
@@ -51,17 +52,17 @@ class spades(object):
             self.teamPoints["team2"] += roundPoints["team2"]
 
             # Account for sandbags
-            print "\n\nSandbag Count:"
-            print "\tTeam 1: ", self.teamSandbags["team1"]
-            print "\tTeam 2: ", self.teamSandbags["team2"]
+            print("\n\nSandbag Count:")
+            print("\tTeam 1: ", self.teamSandbags["team1"])
+            print("\tTeam 2: ", self.teamSandbags["team2"])
             if self.teamSandbags["team1"] == 10:
                 self.teamSandbags["team1"] = 0
                 self.teamPoints["team1"] -= 100
-                print "\n\n\nTeam 1 just lost 100 points from sandbags!"
+                print("\n\n\nTeam 1 just lost 100 points from sandbags!")
             if self.teamSandbags["team2"] == 10:
                 self.teamSandbags["team2"] = 0
                 self.teamPoints["team2"] -= 100
-                print "\n\n\nTeam 2 just lost 100 points from sandbags!"
+                print("\n\n\nTeam 2 just lost 100 points from sandbags!")
 
     def playRound(self, leadUser="p1"):
         """
@@ -86,7 +87,7 @@ class spades(object):
         if leadUser == "p1":
             # Show the user their hand and get their bid first
             time.sleep(0.2)
-            print "You bid first this round."
+            print("You bid first this round.")
             time.sleep(0.2)
             self.displayHand(playerCards["p1"])
             time.sleep(0.2)
@@ -103,13 +104,13 @@ class spades(object):
             self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
-            print " "
+            print(" ")
             time.sleep(.5)
-            print "P 2 bid: ", self.playerBids['p2']
+            print("P 2 bid: ", self.playerBids['p2'])
             time.sleep(.1)
-            print "P 3 bid: ", self.playerBids['p3']
+            print("P 3 bid: ", self.playerBids['p3'])
             time.sleep(.1)
-            print "P 4 bid: ", self.playerBids['p4']
+            print("P 4 bid: ", self.playerBids['p4'])
             time.sleep(.5)
 
             self.displayHand(playerCards["p1"])
@@ -120,11 +121,11 @@ class spades(object):
             self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
-            print " "
+            print(" ")
             time.sleep(.5)
-            print "P 3 bid: ", self.playerBids['p3']
+            print("P 3 bid: ", self.playerBids['p3'])
             time.sleep(.1)
-            print "P 4 bid: ", self.playerBids['p4']
+            print("P 4 bid: ", self.playerBids['p4'])
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
             self.playerBids['p1'] = self.obtainUserBid()
@@ -135,9 +136,9 @@ class spades(object):
             self.playerBids['p4'] = self.obtainCpuBid(playerCards["p4"])
 
             # Show the user their hand and get their bid
-            print " "
+            print(" ")
             time.sleep(.5)
-            print "P 4 bid: ", self.playerBids['p4']
+            print("P 4 bid: ", self.playerBids['p4'])
             time.sleep(.5)
             self.displayHand(playerCards["p1"])
             self.playerBids['p1'] = self.obtainUserBid()
@@ -147,24 +148,24 @@ class spades(object):
         else: pass
 
         # Display the bids to the user
-        print " "
+        print(" ")
         time.sleep(.5)
-        print "You bid: ", self.playerBids['p1']
+        print("You bid: ", self.playerBids['p1'])
         time.sleep(.1)
-        print "P 2 bid: ", self.playerBids['p2']
+        print("P 2 bid: ", self.playerBids['p2'])
         time.sleep(.1)
-        print "P 3 bid: ", self.playerBids['p3']
+        print("P 3 bid: ", self.playerBids['p3'])
         time.sleep(.1)
-        print "P 4 bid: ", self.playerBids['p4']
+        print("P 4 bid: ", self.playerBids['p4'])
         time.sleep(.3)
 
         # Calculate team bids for this roundCards
         self.yourTeamBid = self.playerBids['p1'] + self.playerBids['p3']
         self.opponentTeamBid = self.playerBids['p2'] + self.playerBids['p4']
-        print " "
-        print "Your Team bid: ", self.yourTeamBid
+        print(" ")
+        print("Your Team bid: ", self.yourTeamBid)
         time.sleep(.1)
-        print "Their Team bid: ", self.opponentTeamBid
+        print("Their Team bid: ", self.opponentTeamBid)
         time.sleep(.5)
 
         # A round has 13 hands to play in order to add up all the tricks
@@ -199,13 +200,13 @@ class spades(object):
         leadSuit = None
 
         time.sleep(1.5)
-        print "\n__________________________________________________________________"
-        print "\t\tYour team has", trickTotals["p1"] + trickTotals["p3"], "tricks.\tYou bid", self.yourTeamBid
-        print "\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks.\tThey bid", self.opponentTeamBid
-        print "__________________________________________________________________\n"
+        print("\n__________________________________________________________________")
+        print("\t\tYour team has ", trickTotals["p1"] + trickTotals["p3"], "tricks.\tYou bid", self.yourTeamBid)
+        print("\t\tOpponent has", trickTotals["p2"] + trickTotals["p4"], "tricks.\tThey bid", self.opponentTeamBid)
+        print("__________________________________________________________________\n")
 
         if leadUser == "p1":
-            print "You have the lead this hand."
+            print("You have the lead this hand.")
             roundCards["p1"] = self.userLeads(playerCards["p1"])
             leadSuit = roundCards[leadUser]["suit"]
 
@@ -215,7 +216,7 @@ class spades(object):
             roundCards["p4"] = self.selectCPUCard(playerCards["p4"], roundCards, leadSuit, leadUser, 'p4', trickTotals)
 
         if leadUser == "p2":
-            print "Player 2 has the lead this hand."
+            print("Player 2 has the lead this hand.")
             roundCards["p2"] = self.selectCPULeadCard(playerCards["p2"], 'p2', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
@@ -224,7 +225,7 @@ class spades(object):
             roundCards["p1"] = self.userPlays(playerCards["p1"], leadSuit)
 
         if leadUser == "p3":
-            print "Player 3 has the lead this hand."
+            print("Player 3 has the lead this hand.")
             roundCards["p3"] = self.selectCPULeadCard(playerCards["p3"], 'p3', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
@@ -233,7 +234,7 @@ class spades(object):
             roundCards["p2"] = self.selectCPUCard(playerCards["p2"], roundCards, leadSuit, leadUser, 'p2', trickTotals)
 
         if leadUser == "p4":
-            print "Player 4 has the lead this hand."
+            print("Player 4 has the lead this hand.")
             roundCards["p4"] = self.selectCPULeadCard(playerCards["p4"], 'p4', trickTotals)
             leadSuit = roundCards[leadUser]["suit"]
 
@@ -250,14 +251,14 @@ class spades(object):
         Human user leads this round and selects their first card out
         """
         self.displayHand(usersHand)
-        print "\n\nYou have the lead this hand."
+        print("\n\nYou have the lead this hand.")
         cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
         # Is the user's selection allowed?
         isAllowed = self.checkLeadCard(usersHand, cardSelection)
         if not isAllowed:
             self.prepareResponse()
-            print "\n\nYou can not select a SPADE yet. Try again."
+            print("\n\nYou can not select a SPADE yet. Try again.")
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
         cardSelected = usersHand[cardSelection]
@@ -269,15 +270,15 @@ class spades(object):
         Human user plays a card in this round. User is not leading the hand.
         """
         self.displayHand(usersHand)
-        print "\n\nLead suit was", leadSuit
+        print("\n\nLead suit was", leadSuit)
         cardSelection = 0
         while 1:
             try:
                 cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
             except ValueError:
                 time.sleep(0.2)
-                print "...."
-                print "Please enter an INTEGER for your hand.\n"
+                print("....")
+                print("Please enter an INTEGER for your hand.\n")
                 time.sleep(0.1)
                 continue
             else:
@@ -287,7 +288,7 @@ class spades(object):
         isAllowed = self.checkPlayedCard(usersHand, cardSelection, leadSuit)
         if not isAllowed:
             self.prepareResponse()
-            print "\n\nYour selection is not allowed. Try again."
+            print("\n\nYour selection is not allowed. Try again.")
             cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
 
         cardSelected = usersHand[cardSelection]
@@ -336,7 +337,7 @@ class spades(object):
         # In HARD mode, purposefully choose which card to play
         if self.gameMode == self.HARD:
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
-            print "CPU ", whoAmI, " Win Desire: ", winDesire
+            print("CPU ", whoAmI, " Win Desire: ", winDesire)
 
         selection = ableToPlay[ableIndex]
         #print "selection: ", selection
@@ -348,7 +349,7 @@ class spades(object):
                 hand.pop(i)
                 break
 
-        print "\nPlayer", whoAmI, "played the", selection['value'], "of", selection['suit']
+        print("\nPlayer", whoAmI, "played the", selection['value'], "of", selection['suit'])
         time.sleep(0.35)
         return selection
 
@@ -384,7 +385,7 @@ class spades(object):
         if self.gameMode == self.HARD and len(ableToPlay) > 1:
             # Purposefully choose which card to play
             winDesire = self.doIWantToWinThisHand(whoAmI, trickTotals)
-            print "CPU ", whoAmI, " Lead Win Desire: ", winDesire
+            print("CPU ", whoAmI, " Lead Win Desire: ", winDesire)
 
             # Do I have a Spade in my hand?
             ableToLeadSpade = False
@@ -415,7 +416,7 @@ class spades(object):
                     # If early in the game, can lead with an ACE without too much risk.
                     for ii in range(0, len(ableToPlay)):
                         if ableToPlay[ii]["value"] == "A":
-                            print "DEBUG: CPU going to lead with ", ableToPlay[ii]
+                            print("DEBUG: CPU going to lead with ", ableToPlay[ii])
                             i = ii
                             break
                 elif ableToLeadSpade:
@@ -424,7 +425,7 @@ class spades(object):
                     i = 0
                     for ii in range(1, len(ableToPlay)):
                         if ableToPlay[ii]["suit"] == "spades" and ableToPlay[ii]["rank"] > tmpCard["rank"]:
-                            print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", ableToPlay[ii]
+                            print("DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", ableToPlay[ii])
                             tmpCard = ableToPlay[ii]
                             i = ii
                 else:
@@ -448,7 +449,7 @@ class spades(object):
                 i = 0
                 for ii in range(1, len(adjustedAbleToPlay)):
                     if adjustedAbleToPlay[ii]["rank"] < tmpCard["rank"]:
-                        print "DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", adjustedAbleToPlay[ii]
+                        print("DEBUG: CPU was going to lead with ", tmpCard, "but is now going to lead with ", adjustedAbleToPlay[ii])
                         tmpCard = adjustedAbleToPlay[ii]
                         i = ii
             else:
@@ -458,7 +459,7 @@ class spades(object):
 
         selection = ableToPlay[i]
         hand.pop(i)
-        print "\nPlayer", whoAmI, "lead with the", selection['value'], "of", selection['suit']
+        print("\nPlayer", whoAmI, "lead with the", selection['value'], "of", selection['suit'])
         time.sleep(0.35)
         return selection
 
@@ -489,10 +490,10 @@ class spades(object):
         if roundCards["p3"]["suit"] == winningSuit: eligibleCards.append(roundCards["p3"])
         if roundCards["p4"]["suit"] == winningSuit: eligibleCards.append(roundCards["p4"])
         winner = eligibleCards[0]
-        #print "###\twinner: ", winner
+        #print(###\twinner: ", winner)
         for i in range(1, len(eligibleCards)):
             if eligibleCards[i]["index"] > winner["index"]: winner = eligibleCards[i]
-            #print "###\twinner: ", winner
+            #print("###\twinner: ", winner)
 
         # Find the user that won the hand
         winningUser = None
@@ -501,7 +502,7 @@ class spades(object):
                 winningUser = i
                 break
         time.sleep(0.2)
-        print "\nWinner:   ", winningUser
+        print("\nWinner:   ", winningUser)
         time.sleep(0.2)
         return winningUser
 
@@ -597,15 +598,15 @@ class spades(object):
         Sort then print user's cards
         """
         time.sleep(0.2)
-        print "\n\n**** **** **** **** **** **** ****"
-        print "          YOUR HAND\n**** **** **** **** **** **** ****"
+        print("\n\n**** **** **** **** **** **** ****")
+        print("          YOUR HAND\n**** **** **** **** **** **** ****")
         time.sleep(0.1)
 
         i = 0
         while i < len(inputCards):
-            print i+1, ")\t", inputCards[i]["value"], "\t", self.suit_symbols[inputCards[i]["suit"]]
+            print(i+1, ")\t", inputCards[i]["value"], "\t", self.suit_symbols[inputCards[i]["suit"]])
             i += 1
-        print " "
+        print(" ")
         time.sleep(0.2)
 
     def sortHand(self, hand):
@@ -699,7 +700,7 @@ class spades(object):
             return int(newResponse)
 
         self.prepareResponse()
-        print "Sorry. Defaulting to a bid of 2."
+        print("Sorry. Defaulting to a bid of 2.")
         return 2
 
     def prepareResponse(self):
@@ -707,7 +708,7 @@ class spades(object):
         Prepare to give the user a response
         """
         time.sleep(0.1)
-        print "\n........."
+        print("\n.........")
         time.sleep(0.1)
 
     def hasTeamWon(self):
@@ -717,12 +718,12 @@ class spades(object):
         outcome = None
 
         # Print team standings
-        print "\n\n"
-        print "------ ------ ------ ------"
-        print "       Team 1:      ", self.teamPoints["team1"]
-        print "       Team 2:      ", self.teamPoints["team2"]
-        print "------ ------ ------ ------"
-        print " "
+        print("\n\n")
+        print("------ ------ ------ ------")
+        print("       Team 1:      ", self.teamPoints["team1"])
+        print("       Team 2:      ", self.teamPoints["team2"])
+        print("------ ------ ------ ------")
+        print(" ")
 
         # Compare teamPoints to threshold
         if self.teamPoints["team1"] > self.pointsToWin:
@@ -740,14 +741,14 @@ class spades(object):
 
         # Print a big banner when there's a winner
         if outcome:
-            print "******************************************************"
-            print "******************************************************"
-            print "******************************************************"
-            print "\n\n\nWINNER!!! ", outcome
-            print "\n\n"
-            print "******************************************************"
-            print "******************************************************"
-            print "******************************************************"
+            print("******************************************************")
+            print("******************************************************")
+            print("******************************************************")
+            print("\n\n\nWINNER!!! ", outcome)
+            print("\n\n")
+            print("******************************************************")
+            print("******************************************************")
+            print("******************************************************")
 
         return outcome
 
