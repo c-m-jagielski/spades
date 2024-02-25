@@ -252,14 +252,14 @@ class spades(object):
         """
         self.displayHand(usersHand)
         print("\n\nYou have the lead this hand.")
-        cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+        cardSelection = int(input("\n\nWhat card will you play? ")) - 1
 
         # Is the user's selection allowed?
         isAllowed = self.checkLeadCard(usersHand, cardSelection)
         if not isAllowed:
             self.prepareResponse()
             print("\n\nYou can not select a SPADE yet. Try again.")
-            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+            cardSelection = int(input("\n\nWhat card will you play? ")) - 1
 
         cardSelected = usersHand[cardSelection]
         usersHand.pop(cardSelection)
@@ -274,7 +274,7 @@ class spades(object):
         cardSelection = 0
         while 1:
             try:
-                cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+                cardSelection = int(input("\n\nWhat card will you play? ")) - 1
             except ValueError:
                 time.sleep(0.2)
                 print("....")
@@ -289,7 +289,7 @@ class spades(object):
         if not isAllowed:
             self.prepareResponse()
             print("\n\nYour selection is not allowed. Try again.")
-            cardSelection = int(raw_input("\n\nWhat card will you play? ")) - 1
+            cardSelection = int(input("\n\nWhat card will you play? ")) - 1
 
         cardSelected = usersHand[cardSelection]
         usersHand.pop(cardSelection)
@@ -688,13 +688,13 @@ class spades(object):
         allowed = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13",'null','nill','nillo','zero','none']
         nillos = ['null','nill','nillo','zero','none']
 
-        response = raw_input("\nWhat is your bid? ")
+        response = input("\nWhat is your bid? ")
         if response in allowed:
             if response in nillos: return 0
             return int(response)
 
         self.prepareResponse()
-        newResponse = raw_input("\nPlease enter a valid bid.\nWhat is your bid? ")
+        newResponse = input("\nPlease enter a valid bid.\nWhat is your bid? ")
         if newResponse in allowed:
             if newResponse in nillos: return 0
             return int(newResponse)
@@ -800,8 +800,8 @@ if __name__ == "__main__":
 
     print("Let's play Spades!")
     time.sleep(0.1)
-    #val = raw_input("Enter your value: ")    # convert to input() for python 3.6
-    playerName = raw_input("What is your name? ")
+    #val = input("Enter your value: ")    # convert to input() for python 3.6
+    playerName = input("What is your name? ")
     if playerName=="": playerName = "Player 1"
 
     game = spades(logger)
